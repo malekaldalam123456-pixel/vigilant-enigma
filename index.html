@@ -1,0 +1,1270 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EARN IT</title>
+<meta name="description" content="EARN IT: productivity, habits, challenges, companion pets and your personal virtual economy.">
+<meta name="theme-color" content="#0b0b0d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%86%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#0b0b0d;--panel:rgba(255,255,255,.05);--line:rgba(255,255,255,.12);--text:#f5f2ea;--muted:#a19b8f;--gold:#d4af37;--gold2:#f6e27a;--green:#34c77b;--red:#f0565b;color-scheme:dark}
+[data-theme=light]{--bg:#f7f5ef;--panel:rgba(255,255,255,.85);--line:rgba(0,0,0,.12);--text:#17150f;--muted:#6d675a;--green:#15834d;--red:#c62f35;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,"Noto Naskh Arabic",sans-serif;line-height:1.5;color:var(--text);background:radial-gradient(900px 500px at 85% -10%,rgba(212,175,55,.14),transparent 60%),var(--bg)}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 20px;position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.brand{font-weight:800;letter-spacing:.12em;font-size:1.2rem;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 20px;border-bottom:1px solid var(--line)}
+main{max-width:1100px;margin-inline:auto;padding:18px 20px 100px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.two{grid-template-columns:1fr 1fr}
+@media(max-width:700px){.two{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:14px;backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.22)}
+.grid>.card,.two>.card{margin-top:0}
+.stat small{color:var(--muted)}
+.stat b{display:block;font-size:1.3rem;margin-top:4px}
+.pos{color:var(--green)}.neg{color:var(--red)}.muted{color:var(--muted);font-size:.9rem}
+button{font:inherit;cursor:pointer;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 14px;white-space:nowrap}
+button:hover:not(:disabled){border-color:var(--gold)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#15120a;border:0;font-weight:700}
+button.danger{color:var(--red)}
+nav button[aria-current=page]{border-color:var(--gold);color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+input,select{font:inherit;color:var(--text);background:transparent;border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0;max-width:100%}
+form{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+form label{display:flex;flex-direction:column;gap:4px;font-size:.8rem;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.done{opacity:.55}.done b{text-decoration:line-through}
+.tag{font-size:.75rem;padding:2px 9px;border-radius:99px;border:1px solid var(--line);display:inline-block}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s ease}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:start;white-space:nowrap}
+h3{margin:.1rem 0 .7rem;font-size:1.05rem}
+.banner{margin-top:14px;padding:12px 16px;border-radius:14px;border:1px solid var(--red);color:var(--red)}
+#toast{position:fixed;bottom:18px;inset-inline:18px;max-width:380px;margin-inline:auto;padding:12px 16px;border-radius:14px;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(12px);opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}
+#toast.show{opacity:1;transform:none}
+#toast.ok{border-color:var(--green)}#toast.err{border-color:var(--red)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.badges{display:flex;flex-wrap:wrap;gap:10px}
+.badge{display:flex;flex-direction:column;gap:2px;min-width:118px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);font-size:.85rem;background:var(--panel)}
+.badge.off{opacity:.35;filter:grayscale(1)}
+.r-common{border-color:#8d8d8d}.r-rare{border-color:#4f8ff7}.r-epic{border-color:#a855f7}
+.r-legendary{border-color:var(--gold);box-shadow:0 0 18px rgba(212,175,55,.35)}
+.modal{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:16px;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.modal[hidden]{display:none}
+.panel{width:min(460px,100%);padding:20px;border-radius:20px;background:var(--bg);border:1px solid var(--line);box-shadow:0 24px 70px rgba(0,0,0,.5)}
+.panel form{flex-direction:column;align-items:stretch}
+.tbtn{margin-inline-start:8px;padding:4px 10px;border-radius:10px;border:1px solid var(--gold);color:var(--gold);background:transparent}
+.ctitle{color:var(--gold);font-size:.85rem;font-weight:600}
+.sw{display:block;width:100%;height:46px;border-radius:12px;margin-bottom:10px}
+.cos{display:flex;flex-direction:column;gap:4px}
+body[data-amb=amb_aurora]{background:radial-gradient(60% 50% at 15% 0%,rgba(52,199,123,.22),transparent 70%),radial-gradient(50% 40% at 90% 10%,rgba(59,130,246,.2),transparent 70%),var(--bg)}
+body[data-amb=amb_stars]{background-color:var(--bg);background-image:radial-gradient(1px 1px at 20px 30px,rgba(255,255,255,.8),transparent),radial-gradient(1px 1px at 90px 80px,rgba(255,255,255,.6),transparent),radial-gradient(1.5px 1.5px at 150px 50px,rgba(255,255,255,.9),transparent);background-size:170px 130px}
+.timer{font-size:4.5rem;font-weight:800;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:.04em;background:linear-gradient(90deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.focus{display:flex;flex-direction:column;gap:12px}
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:30}
+#fx .p{position:absolute;top:-14px;width:9px;height:14px;border-radius:2px;animation:fall 1.6s ease-in forwards}
+#fx .spark{width:7px;height:7px;border-radius:50%;top:42%;animation:burst 1.1s ease-out forwards}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(540deg);opacity:0}}
+@keyframes burst{to{transform:translate(var(--dx),-70px) scale(.2);opacity:0}}
+body[data-amb=amb_grid]{background-color:var(--bg);background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:36px 36px}
+body[data-amb=amb_ember]{background:radial-gradient(70% 55% at 50% 110%,rgba(249,115,22,.35),transparent 70%),var(--bg)}
+body[data-amb=amb_cyber]{background:linear-gradient(135deg,rgba(14,165,233,.13),transparent 40%),repeating-linear-gradient(90deg,rgba(34,211,238,.035) 0 1px,transparent 1px 32px),var(--bg)}
+body[data-amb=amb_sunset]{background:radial-gradient(70% 60% at 50% 0%,rgba(249,115,22,.22),transparent 70%),linear-gradient(145deg,rgba(236,72,153,.08),transparent 60%),var(--bg)}
+body[data-amb=amb_matrix]{background:repeating-linear-gradient(0deg,rgba(34,197,94,.045) 0 1px,transparent 1px 5px),radial-gradient(ellipse at center,rgba(22,163,74,.12),transparent 70%),var(--bg)}
+
+/* Profile, fake local sign-in, calendar, analytics and PWA additions */
+.auth-screen{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:18px;background:radial-gradient(700px 400px at 50% 0%,rgba(212,175,55,.18),transparent 70%),var(--bg)}
+.auth-screen[hidden]{display:none}.auth-card{width:min(480px,100%);padding:26px;border:1px solid var(--line);border-radius:24px;background:var(--panel);box-shadow:0 24px 80px #0008}.auth-card h1{margin:0;color:var(--gold);letter-spacing:.12em}.auth-card form{display:grid;grid-template-columns:1fr;align-items:stretch}.auth-card label{display:flex;flex-direction:column;gap:7px;color:var(--muted)}
+.profile-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.avatar-wrap{position:relative;width:92px;height:92px;flex:0 0 92px;border-radius:50%;display:grid;place-items:center;background:var(--panel);isolation:isolate}.avatar-wrap:before{content:"";position:absolute;inset:-5px;border-radius:50%;border:3px solid transparent;border-top-color:var(--gold);border-right-color:#60a5fa;animation:frameSpin 3s linear infinite;z-index:-1}.avatar-wrap:after{content:"";position:absolute;inset:-1px;border-radius:50%;box-shadow:0 0 18px rgba(212,175,55,.35);animation:framePulse 2s ease-in-out infinite}.avatar-wrap img{width:78px;height:78px;border-radius:50%;object-fit:cover}.avatar-emoji{font-size:3rem;animation:avatarFloat 2.8s ease-in-out infinite}.frame-rare:before{border-top-color:#60a5fa;border-right-color:#a78bfa;border-bottom-color:#60a5fa}.frame-epic:before{border-top-color:#d946ef;border-right-color:#8b5cf6;border-bottom-color:#d946ef}.frame-legendary:before{border:3px solid transparent;border-top-color:#facc15;border-right-color:#fb923c;border-bottom-color:#facc15;filter:drop-shadow(0 0 5px #facc15)}
+@keyframes frameSpin{to{transform:rotate(360deg)}}@keyframes framePulse{50%{box-shadow:0 0 28px rgba(212,175,55,.65)}}@keyframes avatarFloat{50%{transform:translateY(-5px) rotate(3deg)}}
+
+/* Companion pets */
+.pet-stage{display:grid;place-items:center;min-height:180px;border:1px solid var(--line);border-radius:20px;background:radial-gradient(circle at 50% 35%,rgba(212,175,55,.16),transparent 65%),var(--panel);position:relative;overflow:hidden}
+.pet-emoji{font-size:5.2rem;filter:drop-shadow(0 8px 16px rgba(0,0,0,.3));animation:petBob 2.6s ease-in-out infinite;transform-origin:50% 80%}
+.pet-stage:after{content:"";position:absolute;width:120px;height:18px;bottom:24px;border-radius:50%;background:rgba(0,0,0,.18);filter:blur(7px);animation:petShadow 2.6s ease-in-out infinite}
+@keyframes petBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+@keyframes petShadow{50%{transform:scale(.78);opacity:.5}}
+.pet-card{display:flex;flex-direction:column;gap:10px}.pet-preview{font-size:2.8rem;text-align:center;padding:16px;background:var(--panel);border-radius:16px}.pet-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media(prefers-reduced-motion:reduce){.pet-emoji,.pet-stage:after{animation:none!important}}
+
+/* Premium animated profile frames */
+.avatar-wrap[class*="frame-"]:before{transition:filter .25s,opacity .25s}
+.frame-neon:before{border:3px solid transparent;border-top-color:#22d3ee;border-right-color:#a3e635;border-bottom-color:#22d3ee;filter:drop-shadow(0 0 7px #22d3ee);animation:frameSpin 2s linear infinite}
+.frame-fire:before{border:4px dotted #fb923c;border-top-color:#fef08a;border-right-color:#ef4444;filter:drop-shadow(0 0 8px #f97316);animation:frameSpin 2.4s linear infinite}
+.frame-ocean:before{border:4px dashed #38bdf8;border-top-color:#e0f2fe;border-right-color:#2563eb;filter:drop-shadow(0 0 7px #38bdf8);animation:frameSpin 4s linear infinite}
+.frame-prism:before{border:4px solid transparent;border-top-color:#f0abfc;border-right-color:#67e8f9;border-bottom-color:#fde68a;border-left-color:#a3e635;filter:drop-shadow(0 0 8px #c084fc);animation:frameSpin 1.8s linear infinite}
+.frame-royal:before{border:4px double #facc15;border-top-color:#fff7ae;border-right-color:#f59e0b;border-bottom-color:#facc15;filter:drop-shadow(0 0 10px #eab308);animation:frameSpin 5s linear infinite}
+.avatar-wrap.frame-neon:after{box-shadow:0 0 22px #22d3ee;animation:framePulse 1.4s ease-in-out infinite}
+.avatar-wrap.frame-fire:after{box-shadow:0 0 22px #f97316;animation:framePulse 1s ease-in-out infinite}
+.avatar-wrap.frame-ocean:after{box-shadow:0 0 22px #38bdf8;animation:framePulse 2.2s ease-in-out infinite}
+.avatar-wrap.frame-prism:after{box-shadow:0 0 22px #c084fc;animation:framePulse 1.5s ease-in-out infinite}
+.avatar-wrap.frame-royal:after{box-shadow:0 0 26px #eab308;animation:framePulse 1.8s ease-in-out infinite}
+.cos-preview{display:grid;place-items:center;min-height:86px;padding:8px;border-radius:14px;background:rgba(255,255,255,.025)}.cos-preview .avatar-wrap{transform:scale(.72);margin:4px}.cos-preview .avatar-emoji{font-size:2.4rem}
+.profile-title{display:inline-flex;align-items:center;gap:6px;margin-top:5px;padding:3px 10px;border-radius:99px;border:1px solid var(--gold);color:var(--gold);font-size:.78rem;animation:titleGlow 2.5s ease-in-out infinite}
+@keyframes titleGlow{50%{box-shadow:0 0 14px color-mix(in srgb,var(--gold) 45%,transparent)}}
+
+.cal-toolbar,.filter-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.cal-toolbar .spacer{flex:1}.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.cal-cell{min-height:92px;border:1px solid var(--line);border-radius:12px;padding:7px;min-width:0;overflow:hidden}.cal-cell.today{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}.cal-cell.out{opacity:.38}.cal-cell b{display:block;margin-bottom:5px}.cal-event{display:block;font-size:.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:3px 0;padding:2px 5px;border-radius:5px;background:rgba(212,175,55,.13)}.cal-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.cal-day{border:1px solid var(--line);border-radius:12px;padding:8px;min-height:130px;min-width:0}.chart-bars{display:flex;align-items:flex-end;gap:10px;min-height:190px;padding:18px 8px 8px;border-bottom:1px solid var(--line)}.chart-col{flex:1;min-width:0;text-align:center}.chart-bar{min-height:3px;border-radius:8px 8px 2px 2px;background:linear-gradient(180deg,var(--gold2),var(--gold));margin:0 auto;width:min(34px,80%);transition:height .25s}.chart-col small{display:block;font-size:.7rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis}.report-card{border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:12px}.photo-preview{width:68px;height:68px;object-fit:cover;border-radius:50%;border:2px solid var(--gold)}
+@media(max-width:650px){.cal-cell{min-height:70px;padding:4px}.cal-event{font-size:.62rem}.cal-grid,.cal-week{gap:3px}.chart-bars{gap:4px}}
+
+</style>
+</head>
+<body>
+<header>
+  <div><span class="brand">EARN IT</span> <span class="ctitle" id="ctitle"></span> <span class="muted" id="tag"></span></div>
+  <div class="actions"><span id="userMini" class="muted"></span><button type="button" data-act="logout" id="logoutBtn">خروج</button><button type="button" data-act="lang" id="langBtn"></button><button type="button" data-act="theme" id="themeBtn"></button></div>
+</header>
+<nav id="nav" aria-label="Main"></nav>
+<main id="app"></main>
+<div id="authScreen" class="auth-screen" hidden>
+  <section class="auth-card">
+    <h1>EARN IT</h1><p class="muted">أنشئ ملفك الشخصي وابدأ رحلتك. تسجيل الدخول هنا تجريبي ومحلي على هذا الجهاز فقط.</p>
+    <form id="authForm">
+      <label>اسمك المعروض<input name="name" maxlength="40" required placeholder="اكتب اسمك هنا"></label>
+      <label>صورتك الشخصية<input name="photo" type="file" accept="image/*"></label>
+      <label>اختر أفاتار بديلًا<select name="avatar"><option>🧑‍🚀</option><option>🦊</option><option>🐼</option><option>🐯</option><option>🐸</option><option>🐉</option><option>🦄</option><option>🤖</option></select></label>
+      <button class="primary" type="submit">إنشاء الملف والدخول</button>
+    </form>
+    <p class="muted" style="font-size:.78rem">لا يوجد بريد أو كلمة مرور؛ الملف محفوظ داخل متصفحك، ويمكن لأي شخص يستخدم الجهاز الوصول إليه.</p>
+  </section>
+</div>
+<div id="modal" class="modal" hidden></div>
+<div id="fx" aria-hidden="true"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+'use strict';
+const KEY = 'earnit.v1', PREF = 'earnit.prefs';
+const DIFF = { easy:[1000,2500], medium:[2500,6000], hard:[6000,12000], expert:[12000,25000], legendary:[25000,50000] };
+const CATS = ['entertainment','gaming','food_drinks','lifestyle','personal','learning','custom'];
+const FILTERS = { all:'all', pending:'pending', completed:'done', overdue:'overdue' };
+
+const STR = {
+ar: {
+  tagline:'حياتك… اقتصادك… قواعدك', lang:'English', toLight:'الوضع الفاتح', toDark:'الوضع الداكن',
+  nav:{dashboard:'الرئيسية',tasks:'المهام',habits:'العادات',challenges:'التحديات',focus:'التركيز',calendar:'التقويم',shop:'المتجر',savings:'الادخار',wallet:'المحفظة',analytics:'التحليلات',auctions:'المزادات',social:'الأصدقاء',assistant:'المساعد الذكي',profile:'ملفي الشخصي',pets:'حيواناتي'},
+  balance:'الرصيد المتاح', lifetime:'إجمالي الأرباح', saved:'إجمالي المدخرات', spending:'إجمالي الإنفاق', todayEarn:'أرباح اليوم', completion:'إنجاز اليوم',
+  done:'مكتملة', pending:'قيد التنفيذ', overdue:'متأخرة', recent:'آخر المعاملات', upcoming:'المواعيد القادمة', quick:'إجراءات سريعة', none:'لا توجد بيانات بعد',
+  title:'عنوان المهمة', difficulty:'الصعوبة', reward:'المكافأة (ج.م)', due:'تاريخ الاستحقاق', add:'إضافة', complete:'إكمال', delete:'حذف', archive:'أرشفة', all:'الكل',
+  noTasks:'لا توجد مهام بعد', added:'تمت الإضافة', completedMsg:'اكتملت المهمة وأُضيفت المكافأة', deleted:'تم حذف المهمة',
+  pendingOnly:'المهام المكتملة تبقى في السجل ولا يمكن حذفها',
+  easy:'سهلة', medium:'متوسطة', hard:'صعبة', expert:'خبير', legendary:'أسطورية',
+  newReward:'مكافأة جديدة', rewardName:'اسم المكافأة', category:'الفئة', price:'السعر (ج.م)', buy:'شراء', redeem:'استلام',
+  purchases:'مشترياتي', noRewards:'أضف مكافآت لتبدأ التسوق', bought:'تمت عملية الشراء', redeemed:'تم تسجيل الاستلام', archived:'تمت أرشفة المكافأة',
+  dup:'هذه العملية سُجلت من قبل ولم تُخصم مرة أخرى', confirmBuy:'هل تريد شراء هذه المكافأة بالرصيد؟', purchased:'مشتراة', statusRedeemed:'مستلمة',
+  cats:{entertainment:'ترفيه',gaming:'ألعاب',food_drinks:'طعام ومشروبات',lifestyle:'نمط حياة',personal:'شخصية',learning:'تعلم',custom:'مخصصة'},
+  newGoal:'هدف ادخار جديد', goal:'اسم الهدف', target:'المبلغ المستهدف (ج.م)', targetDate:'تاريخ الهدف', deposit:'إيداع', withdraw:'سحب', amount:'المبلغ',
+  goalDone:'تم بلوغ الهدف 🎉', noGoals:'لا توجد أهداف ادخار بعد', goalAdded:'تم إنشاء الهدف', depOk:'تم الإيداع في الهدف', wdOk:'تم السحب إلى الرصيد المتاح',
+  date:'التاريخ', type:'النوع', desc:'الوصف', amountCol:'المبلغ', after:'الرصيد بعدها', noLedger:'لا توجد معاملات بعد',
+  exportData:'تصدير البيانات', exported:'تم تصدير البيانات', resetData:'مسح البيانات', resetConfirm:'سيتم حذف كل البيانات على هذا المتصفح نهائياً. هل أنت متأكد؟', resetDone:'تم مسح البيانات',
+  ltype:{task_reward:'مكافأة مهمة',shop_purchase:'شراء',savings_deposit:'إيداع ادخار',savings_withdrawal:'سحب ادخار',daily_bonus:'مكافأة دخول يومية',challenge_reward:'مكافأة تحدٍ',pet_feed:'إطعام الحيوان الأليف'},
+  err:{insufficient:'الرصيد غير كافٍ', invalid:'البيانات غير صالحة', notfound:'العنصر غير موجود', already:'هذه المهمة مكتملة ومُكافأة بالفعل',
+       exceeds:'المبلغ يتجاوز المتبقي للهدف', savedLow:'المبلغ المدخر في الهدف أقل من المطلوب', notActive:'هذا الهدف غير نشط',
+       storage:'تعذّر الحفظ في هذا المتصفح، ولم يتغير شيء', corrupt:'البيانات المحفوظة كانت تالفة؛ تم حفظ نسخة احتياطية وبدأنا من جديد'}
+},
+en: {
+  tagline:'Your life… your economy… your rules', lang:'العربية', toLight:'Light mode', toDark:'Dark mode',
+  nav:{dashboard:'Dashboard',tasks:'Tasks',habits:'Habits',challenges:'Challenges',focus:'Focus',calendar:'Calendar',shop:'Shop',savings:'Savings',wallet:'Wallet',analytics:'Analytics',auctions:'Auctions',social:'Friends',assistant:'AI assistant',profile:'My profile',pets:'My pets'},
+  balance:'Available balance', lifetime:'Lifetime earnings', saved:'Total savings', spending:'Total spending', todayEarn:"Today's earnings", completion:"Today's completion",
+  done:'Completed', pending:'Pending', overdue:'Overdue', recent:'Recent transactions', upcoming:'Upcoming deadlines', quick:'Quick actions', none:'No data yet',
+  title:'Task title', difficulty:'Difficulty', reward:'Reward (EGP)', due:'Due date', add:'Add', complete:'Complete', delete:'Delete', archive:'Archive', all:'All',
+  noTasks:'No tasks yet', added:'Added', completedMsg:'Task completed and reward added', deleted:'Task deleted',
+  pendingOnly:'Completed tasks stay in history and cannot be deleted',
+  easy:'Easy', medium:'Medium', hard:'Hard', expert:'Expert', legendary:'Legendary',
+  newReward:'New reward', rewardName:'Reward name', category:'Category', price:'Price (EGP)', buy:'Buy', redeem:'Redeem',
+  purchases:'My purchases', noRewards:'Add rewards to start shopping', bought:'Purchase complete', redeemed:'Redemption recorded', archived:'Reward archived',
+  dup:'This operation was already recorded and was not charged again', confirmBuy:'Buy this reward with your balance?', purchased:'Purchased', statusRedeemed:'Redeemed',
+  cats:{entertainment:'Entertainment',gaming:'Gaming',food_drinks:'Food & drinks',lifestyle:'Lifestyle',personal:'Personal',learning:'Learning',custom:'Custom'},
+  newGoal:'New savings goal', goal:'Goal name', target:'Target amount (EGP)', targetDate:'Target date', deposit:'Deposit', withdraw:'Withdraw', amount:'Amount',
+  goalDone:'Goal reached 🎉', noGoals:'No savings goals yet', goalAdded:'Goal created', depOk:'Deposited into goal', wdOk:'Moved back to available balance',
+  date:'Date', type:'Type', desc:'Description', amountCol:'Amount', after:'Balance after', noLedger:'No transactions yet',
+  exportData:'Export data', exported:'Data exported', resetData:'Erase data', resetConfirm:'All data on this browser will be permanently deleted. Are you sure?', resetDone:'Data erased',
+  ltype:{task_reward:'Task reward',shop_purchase:'Purchase',savings_deposit:'Savings deposit',savings_withdrawal:'Savings withdrawal',daily_bonus:'Daily check-in bonus',challenge_reward:'Challenge reward',pet_feed:'Pet food'},
+  err:{insufficient:'Insufficient balance', invalid:'Invalid input', notfound:'Item not found', already:'This task is already completed and rewarded',
+       exceeds:'Amount exceeds the remaining target', savedLow:'Not enough saved in this goal', notActive:'This goal is not active',
+       storage:'Could not save in this browser. Nothing was changed', corrupt:'Saved data was corrupted; a backup was kept and the app started fresh'}
+}};
+
+const STR_X = {
+ar:{undo:'تراجع',undone:'تم التراجع عن الإكمال',refunded:'تم استرداد قيمة المشتريات',statusRefunded:'مُستردة',
+edit:'تعديل',duplicate:'نسخ',postpone:'تأجيل يوماً',copySuffix:' (نسخة)',duplicated:'تم نسخ المهمة',postponed:'تم تأجيل المهمة يوماً',
+editTask:'تعديل المهمة',save:'حفظ',cancel:'إلغاء',ok:'تأكيد',savedOk:'تم الحفظ',deleteConfirm:'حذف هذه المهمة نهائياً؟',
+search:'ابحث في المهام…',sort:'ترتيب',sortDue:'الموعد',sortReward:'المكافأة',sortTitle:'الاسم',
+level:'المستوى',xp:'نقطة خبرة',nextLevel:'للمستوى التالي',maxLevel:'أعلى مستوى',
+streak:'سلسلة الأيام',days:'يوماً متتالياً',weekly:'أرباح آخر 7 أيام',achievements:'الإنجازات',levelUp:'ارتفع مستواك إلى',
+exportCsv:'تصدير CSV',csvDone:'تم تصدير ملف CSV',shortcuts:'اختصارات: N مهمة جديدة · / بحث · Esc إغلاق',
+titles:{beginner:'مبتدئ',apprentice:'متدرب',achiever:'طموح',explorer:'مستكشف',professional:'محترف',expert:'خبير',master:'سيّد',elite:'نخبة',champion:'بطل',legend:'أسطورة'},
+rarity:{common:'عادي',rare:'نادر',epic:'ملحمي',legendary:'أسطوري'},
+ltype:{task_reward:'مكافأة مهمة',shop_purchase:'شراء',savings_deposit:'إيداع ادخار',savings_withdrawal:'سحب ادخار',reversal:'تراجع عن مكافأة',refund:'استرداد شراء',daily_bonus:'مكافأة دخول يومية',challenge_reward:'مكافأة تحدٍ',pet_feed:'إطعام الحيوان الأليف'},
+ach:{pet_owner:{n:'رفيق جديد',d:'اشترِ أول حيوان أليف'},pet_collector:{n:'مربي الحيوانات',d:'امتلك ثلاثة حيوانات أليفة'},pet_master:{n:'أسطورة الرفاق',d:'طوّر حيوانك الأليف إلى المستوى الرابع'},first:{n:'أولى الخطوات',d:'أكمل أول مهمة'},ten:{n:'منجز',d:'أكمل 10 مهام'},earn100:{n:'أول 100',d:'اجمع 100 ج.م'},earn1000:{n:'ألف جنيه',d:'اجمع 1000 ج.م'},earn10000:{n:'عشرة آلاف',d:'اجمع 10000 ج.م'},streak7:{n:'أسبوع متصل',d:'حافظ على سلسلة 7 أيام'},level10:{n:'مستوى 10',d:'بلغ المستوى 10'},level50:{n:'القمة',d:'بلغ المستوى 50'},saver:{n:'مدّخر',d:'أكمل هدف ادخار'}},
+err:{completedLocked:'لا يمكن تعديل مهمة مكتملة',alreadyOwned:'تمتلك هذا العنصر بالفعل',notOwned:'هذا العنصر غير مملوك',noPet:'اختر حيوانًا أليفًا أولًا',petFedRecently:'حيوانك أخذ وجبته بالفعل؛ جرّب بعد 4 ساعات',petPlayedToday:'لعبت مع رفيقك اليوم بالفعل',claimed:'استلمت مكافأة هذا التحدي في الفترة الحالية'}},
+en:{undo:'Undo',undone:'Completion undone',refunded:'Purchase refunded',statusRefunded:'Refunded',
+edit:'Edit',duplicate:'Duplicate',postpone:'Postpone 1 day',copySuffix:' (copy)',duplicated:'Task duplicated',postponed:'Postponed by one day',
+editTask:'Edit task',save:'Save',cancel:'Cancel',ok:'Confirm',savedOk:'Saved',deleteConfirm:'Delete this task permanently?',
+search:'Search tasks…',sort:'Sort',sortDue:'Due date',sortReward:'Reward',sortTitle:'Title',
+level:'Level',xp:'XP',nextLevel:'to next level',maxLevel:'Max level',
+streak:'Day streak',days:'days in a row',weekly:'Earnings, last 7 days',achievements:'Achievements',levelUp:'Level up! You reached level',
+exportCsv:'Export CSV',csvDone:'CSV exported',shortcuts:'Shortcuts: N new task · / search · Esc close',
+titles:{beginner:'Beginner',apprentice:'Apprentice',achiever:'Achiever',explorer:'Explorer',professional:'Professional',expert:'Expert',master:'Master',elite:'Elite',champion:'Champion',legend:'Legend'},
+rarity:{common:'Common',rare:'Rare',epic:'Epic',legendary:'Legendary'},
+ltype:{task_reward:'Task reward',shop_purchase:'Purchase',savings_deposit:'Savings deposit',savings_withdrawal:'Savings withdrawal',reversal:'Reward reversal',refund:'Purchase refund',daily_bonus:'Daily check-in bonus',challenge_reward:'Challenge reward',pet_feed:'Pet food'},
+ach:{pet_owner:{n:'New companion',d:'Buy your first pet'},pet_collector:{n:'Pet collector',d:'Own three pets'},pet_master:{n:'Companion legend',d:'Evolve a pet to level four'},first:{n:'First steps',d:'Complete your first task'},ten:{n:'Achiever',d:'Complete 10 tasks'},earn100:{n:'First 100',d:'Earn 100 EGP'},earn1000:{n:'Thousand',d:'Earn 1,000 EGP'},earn10000:{n:'Ten thousand',d:'Earn 10,000 EGP'},streak7:{n:'Unbroken week',d:'Keep a 7-day streak'},level10:{n:'Level 10',d:'Reach level 10'},level50:{n:'Summit',d:'Reach level 50'},saver:{n:'Saver',d:'Complete a savings goal'}},
+err:{completedLocked:'Completed tasks cannot be edited',alreadyOwned:'You already own this item',notOwned:'You do not own this item',noPet:'Choose a pet first',petFedRecently:'Your pet has been fed; try again in 4 hours',petPlayedToday:'You already played with your pet today',claimed:'You already claimed this challenge for this period'}}
+};
+for (const l of Object.keys(STR_X)) { const { err, ...rest } = STR_X[l]; Object.assign(STR[l], rest); Object.assign(STR[l].err, err); }
+
+const XPD = { easy:10, medium:25, hard:50, expert:100, legendary:200 };
+const TITLE_KEYS = ['beginner','apprentice','achiever','explorer','professional','expert','master','elite','champion','legend'];
+const levelOf = xp => Math.min(50, Math.floor(Math.sqrt(xp / 50)) + 1);
+const xpForLevel = L => 50 * (L - 1) ** 2;
+const titleOf = L => T('titles.' + TITLE_KEYS[Math.min(9, Math.floor((L - 1) / 5))]);
+const doneCount = s => s.tasks.reduce((a, t) => a + (isRec(t) ? t.history.length : (t.status === 'completed' ? 1 : 0)), 0);
+function streakOf(s) {
+  const days = new Set();
+  s.tasks.forEach(t => { if (t.completedAt) days.add(ymd(new Date(t.completedAt))); (t.history || []).forEach(h => days.add(ymd(new Date(h.ts)))); });
+  const d = new Date();
+  if (!days.has(ymd(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (days.has(ymd(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+const ACH = [
+  { id:'first', r:'common', t: s => doneCount(s) >= 1 },
+  { id:'ten', r:'rare', t: s => doneCount(s) >= 10 },
+  { id:'earn100', r:'common', t: s => s.lifetime >= 10000 },
+  { id:'earn1000', r:'rare', t: s => s.lifetime >= 100000 },
+  { id:'earn10000', r:'epic', t: s => s.lifetime >= 1000000 },
+  { id:'streak7', r:'epic', t: s => streakOf(s) >= 7 },
+  { id:'level10', r:'rare', t: s => levelOf(s.xp) >= 10 },
+  { id:'level50', r:'legendary', t: s => levelOf(s.xp) >= 50 },
+  { id:'saver', r:'rare', t: s => s.goals.some(g => g.status === 'completed') },
+  { id:'collector', r:'rare', t: s => s.cos.owned.length >= 6 },
+  { id:'focus', r:'rare', t: s => s.focus.length >= 5 },
+  { id:'pet_owner', r:'common', t: s => (s.pets?.owned||[]).length >= 1 },
+  { id:'pet_collector', r:'epic', t: s => (s.pets?.owned||[]).length >= 3 },
+  { id:'pet_master', r:'legendary', t: s => !!s.pets?.active && petLevel(s.pets.xp||0) >= 4 },
+];
+function unlockAchievements(d) {
+  const got = [];
+  for (const a of ACH) if (!d.achievements.includes(a.id) && a.t(d)) { d.achievements.push(a.id); got.push(a.id); }
+  return got;
+}
+
+const ui = { tab:'dashboard', filter:'all', lang:'ar', theme:'dark', banner:'', q:'', sort:'due', calMode:'month', calDate:'', analyticsRange:'30' };
+let S;
+
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => globalThis.crypto?.randomUUID?.() ?? (Date.now().toString(36) + Math.random().toString(36).slice(2));
+const T = k => k.split('.').reduce((o, p) => o?.[p], STR[ui.lang]) ?? k;
+const loc = () => (ui.lang === 'ar' ? 'ar-EG' : 'en-GB');
+const fmt = p => new Intl.NumberFormat(loc(), { style:'currency', currency:'EGP' }).format(p / 100);
+const fmtDate = ts => new Intl.DateTimeFormat(loc(), { dateStyle:'medium', timeStyle:'short' }).format(ts);
+const pad = n => String(n).padStart(2, '0');
+const ymd = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const today = () => ymd(new Date());
+const startOfToday = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); };
+const mid = k => ((DIFF[k][0] + DIFF[k][1]) / 200).toFixed(2);
+const sign = a => (a > 0 ? '+' : '−') + fmt(Math.abs(a));
+
+// Parses a major-unit amount ("12.5", "١٢٫٥") into integer piastres. Returns null if invalid.
+function toP(v) {
+  const s = String(v ?? '').trim().replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace('٫', '.').replace(',', '.');
+  return /^\d+(\.\d{1,2})?$/.test(s) ? Math.round(Number(s) * 100) : null;
+}
+
+// ---------- Storage & invariants ----------
+const ls = () => { try { return window.localStorage; } catch { return null; } };
+const freshState = () => ({ v:3, balance:0, savings:0, lifetime:0, spending:0, xp:0, achievements:[], focus:[], cos:{ owned:['pal_gold','amb_none','fx_none'], eq:{ palette:'pal_gold', title:'', ambient:'amb_none', fx:'fx_none' } }, tasks:[], rewards:[], purchases:[], goals:[], ledger:[], used:{}, habits:[], challenges:[], profile:{name:'',avatar:'🧑‍🚀',bio:'',photo:'',frame:'rare'}, friends:[], notifications:{enabled:false, permission:'default'}, auctions:[], dailyBonus:{lastDate:'',streak:0}, claims:[], pets:{owned:[],active:'',xp:0,bond:0,lastFedAt:0,lastPlayDate:''} });
+
+function invariants(s) {
+  const net = s.ledger.reduce((a, e) => a + e.amount, 0);
+  const saved = s.goals.reduce((a, g) => a + g.saved, 0);
+  const chain = s.ledger.every((e, i, a) => e.after === e.before + e.amount && e.before === (i + 1 < a.length ? a[i + 1].after : 0));
+  const goals = s.goals.every(g => g.saved >= 0 && g.saved <= g.target);
+  if (!Number.isSafeInteger(s.balance) || !Number.isSafeInteger(s.savings) || s.balance < 0 || s.savings < 0 || net !== s.balance || saved !== s.savings || !chain || !goals || s.ledger.some(e => !Number.isSafeInteger(e.amount) || !Number.isSafeInteger(e.before) || !Number.isSafeInteger(e.after))) throw new Error('invariant');
+}
+
+function loadState() {
+  let raw = null;
+  try { raw = ls()?.getItem(KEY) ?? null; } catch {}
+  if (!raw) return freshState();
+  try {
+    const s = JSON.parse(raw);
+    if (!s || typeof s !== 'object' || Array.isArray(s)) throw new Error('shape');
+    s.v = 3;
+    s.balance = Number.isSafeInteger(s.balance) ? s.balance : 0;
+    s.savings = Number.isSafeInteger(s.savings) ? s.savings : 0;
+    s.lifetime = Number.isSafeInteger(s.lifetime) ? s.lifetime : 0;
+    s.spending = Number.isSafeInteger(s.spending) ? s.spending : 0;
+    s.xp = Math.max(0, Number(s.xp) || 0);
+    for (const k of ['tasks','rewards','purchases','goals','ledger','focus','achievements','habits','challenges','friends','auctions']) if (!Array.isArray(s[k])) s[k] = [];
+    s.used = s.used && typeof s.used === 'object' ? s.used : {};
+    s.cos = s.cos && typeof s.cos === 'object' ? s.cos : {};
+    s.cos.owned = Array.isArray(s.cos.owned) ? s.cos.owned : ['pal_gold','amb_none','fx_none'];
+    s.cos.eq = s.cos.eq && typeof s.cos.eq === 'object' ? s.cos.eq : {};
+    Object.assign(s.cos.eq, {palette:s.cos.eq.palette||'pal_gold',title:s.cos.eq.title||'',ambient:s.cos.eq.ambient||'amb_none',fx:s.cos.eq.fx||'fx_none',frame:s.cos.eq.frame||s.profile?.frame||'rare',avatar:s.cos.eq.avatar||''});
+    if (!s.cos.owned.includes('fx_none')) s.cos.owned.push('fx_none');
+    s.profile = s.profile && typeof s.profile === 'object' ? s.profile : {name:'',avatar:'🧑‍🚀',bio:'',photo:'',frame:'rare'};
+    s.profile.name = typeof s.profile.name === 'string' ? s.profile.name : '';
+    s.profile.avatar ||= '🧑‍🚀'; s.profile.bio ||= ''; s.profile.photo ||= ''; s.profile.frame ||= 'rare'; if(/^fr_/.test(s.profile.frame)) s.cos.eq.frame=s.profile.frame;
+    s.dailyBonus = s.dailyBonus && typeof s.dailyBonus === 'object' ? s.dailyBonus : {lastDate:'',streak:0};
+    s.claims = Array.isArray(s.claims) ? s.claims.filter(x => typeof x === 'string' && x.length <= 100) : [];
+    s.notifications = s.notifications && typeof s.notifications === 'object' ? s.notifications : {enabled:false,permission:'default'};
+    s.pets = s.pets && typeof s.pets === 'object' ? s.pets : {owned:[],active:'',xp:0,bond:0,lastFedAt:0,lastPlayDate:''};
+    s.pets.owned = Array.isArray(s.pets.owned) ? s.pets.owned.filter(id => PETS.some(p => p.id === id)) : [];
+    s.pets.active = s.pets.owned.includes(s.pets.active) ? s.pets.active : '';
+    s.pets.xp = Math.max(0, Number(s.pets.xp)||0); s.pets.bond = Math.max(0, Math.min(100, Number(s.pets.bond)||0));
+    s.pets.lastFedAt = Number(s.pets.lastFedAt)||0; s.pets.lastPlayDate ||= '';
+    s.tasks.forEach(t => { t.xp ??= 0; t.petXp ??= 0; t.freq ??= 'none'; t.history ??= []; t.monthDay ??= Number((t.due||today()).slice(8,10)); });
+    invariants(s);
+    return s;
+  } catch {
+    try { ls()?.setItem(KEY + '.backup.' + Date.now(), raw); } catch {}
+    ui.banner = 'err.corrupt';
+    return freshState();
+  }
+}
+
+function persist(s) { try { ls().setItem(KEY, JSON.stringify(s)); return true; } catch { return false; } }
+
+function loadPrefs() {
+  try {
+    const p = JSON.parse(ls()?.getItem(PREF) || '{}');
+    if (['ar', 'en'].includes(p.lang)) ui.lang = p.lang;
+    if (['dark', 'light'].includes(p.theme)) ui.theme = p.theme;
+  } catch {}
+}
+function savePrefs() { try { ls()?.setItem(PREF, JSON.stringify({ lang:ui.lang, theme:ui.theme })); } catch {} }
+
+// ---------- Transactions: every change runs on a draft, is checked, then persisted atomically ----------
+class AppErr extends Error {}
+const fail = code => { throw new AppErr(code); };
+const ISO = /^\d{4}-\d{2}-\d{2}$/;
+function validDate(v) { if (!v) return true; if (!ISO.test(v)) return false; const d = new Date(v + 'T00:00:00'); return !Number.isNaN(d.getTime()) && ymd(d) === v; }
+let note = '';
+
+function toast(msg, kind = 'ok', action = null) {
+  const el = $('#toast');
+  el.replaceChildren(document.createTextNode(msg + note));
+  note = '';
+  if (action) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'tbtn'; b.textContent = action.label;
+    b.onclick = () => { const r = action.fn(); if (r) render(); el.className = ''; };
+    el.append(' ', b);
+  }
+  el.style.pointerEvents = action ? 'auto' : 'none';
+  el.className = 'show ' + kind;
+  clearTimeout(toast.h);
+  toast.h = setTimeout(() => { el.className = ''; }, action ? 6000 : 3200);
+}
+const ok = k => toast(T(k), 'ok');
+
+function post(d, type, amount, desc, ref) {
+  if (!Number.isSafeInteger(amount)) fail('invalid');
+  const before = d.balance, after = before + amount;
+  if (after < 0) fail('insufficient');
+  d.balance = after;
+  d.ledger.unshift({ id:uid(), ts:Date.now(), type, amount, before, after, desc, ref });
+}
+
+function run(fn) {
+  const draft = JSON.parse(JSON.stringify(S));
+  note = '';
+  try {
+    const out = fn(draft) ?? {};
+    const L0 = levelOf(S.xp), L1 = levelOf(draft.xp);
+    const got = unlockAchievements(draft);
+    invariants(draft);
+    if (!persist(draft)) fail('storage');
+    S = draft;
+    note = (L1 > L0 ? ` · ${T('levelUp')} ${L1}` : '') + got.map(id => ` · 🏆 ${T('ach.' + id + '.n')}`).join('');
+    return out;
+  } catch (e) {
+    if (!(e instanceof AppErr)) console.error(e);
+    toast(T('err.' + (e instanceof AppErr ? e.message : 'invalid')), 'err');
+    return null;
+  }
+}
+const done = (fn, msg) => { const r = run(fn); if (r && msg) ok(msg); return r; };
+
+// ---------- Tasks ----------
+const isRec = t => ['daily','weekly','monthly'].includes(t.freq);
+function parseTask(f) {
+  const title = (f.title || '').trim(), reward = toP(f.reward);
+  if (!title || title.length > 200 || reward === null || reward > 1000000 || !DIFF[f.difficulty]) fail('invalid');
+  if (!validDate(f.due)) fail('invalid');
+  const freq = ['none', 'daily', 'weekly', 'monthly'].includes(f.freq) ? f.freq : 'none';
+  const due = f.due || (freq === 'none' ? '' : today());
+  return { title, reward, difficulty: f.difficulty, freq, due, monthDay: due ? Number(due.slice(8,10)) : new Date().getDate() };
+}
+const addTask = f => done(d => { d.tasks.unshift({ id: uid(), ...parseTask(f), status: 'pending', completedAt: null, xp: 0, history: [] }); }, 'added');
+const updateTask = (id, f) => done(d => {
+  const t = d.tasks.find(x => x.id === id);
+  if (!t) fail('notfound');
+  if (t.status === 'completed') fail('completedLocked');
+  Object.assign(t, parseTask(f));
+}, 'savedOk');
+function completeTask(id) {
+  const r = run(d => {
+    const t = d.tasks.find(x => x.id === id);
+    if (!t) fail('notfound');
+    const xp = XPD[t.difficulty];
+    if (isRec(t)) {
+      if (t.due > today()) fail('notDue');
+      const completedDate = today(); const h = { id: uid(), date: completedDate, ts: Date.now(), reward: t.reward, xp, prevDue: t.due };
+      if (t.history.some(x => x.date === h.date)) fail('already');
+      const base = t.due < today() ? today() : t.due; t.due = t.freq === 'daily' ? addDays(base,1) : t.freq === 'weekly' ? addDays(base,7) : addMonths(base,1,t.monthDay);
+      h.petXp = petGain(d, Math.max(4, Math.round(xp * .4))); t.history.unshift(h); d.xp += xp; d.lifetime += t.reward;
+      if (t.reward > 0) post(d, 'task_reward', t.reward, t.title, t.id);
+      return { hid: h.id };
+    }
+    if (t.status === 'completed') fail('already');
+    t.status = 'completed'; t.completedAt = Date.now(); t.xp = xp;
+    d.xp += xp; t.petXp = petGain(d, Math.max(4, Math.round(xp * .4))); d.lifetime += t.reward;
+    if (t.reward > 0) post(d, 'task_reward', t.reward, t.title, t.id);
+    return {};
+  });
+  if (r) { celebrate(); toast(T('completedMsg'), 'ok', { label: T('undo'), fn: () => undoComplete(id, r.hid) }); }
+  return r;
+}
+function undoComplete(id, hid) {
+  const r = run(d => {
+    const t = d.tasks.find(x => x.id === id);
+    if (!t) fail('invalid');
+    if (isRec(t)) {
+      const h = t.history[0];
+      if (!h || h.id !== hid) fail('invalid');
+      if (h.reward > 0) post(d, 'reversal', -h.reward, t.title, t.id);
+      d.xp -= h.xp; d.pets.xp=Math.max(0,(d.pets.xp||0)-(h.petXp||0)); t.due = h.prevDue; t.history.shift();
+      return;
+    }
+    if (t.status !== 'completed') fail('invalid');
+    if (t.reward > 0) post(d, 'reversal', -t.reward, t.title, t.id);
+    d.xp -= t.xp; d.pets.xp=Math.max(0,(d.pets.xp||0)-(t.petXp||0)); t.petXp=0;
+    t.status = 'pending'; t.completedAt = null; t.xp = 0;
+  });
+  if (r) ok('undone');
+  return r;
+}
+const deleteTask = id => done(d => {
+  const i = d.tasks.findIndex(x => x.id === id);
+  if (i < 0) fail('notfound');
+  if (d.tasks[i].status === 'completed' || d.tasks[i].history.length) fail('pendingOnly');
+  d.tasks.splice(i, 1);
+}, 'deleted');
+const postponeTask = id => done(d => {
+  const t = d.tasks.find(x => x.id === id);
+  if (!t) fail('notfound');
+  if (t.status === 'completed') fail('completedLocked');
+  t.due = addDays(t.due && t.due > today() ? t.due : today(), 1);
+}, 'postponed');
+const duplicateTask = id => done(d => {
+  const t = d.tasks.find(x => x.id === id);
+  if (!t) fail('notfound');
+  d.tasks.unshift({ ...t, id: uid(), title: t.title.slice(0, 190) + T('copySuffix'), status: 'pending', completedAt: null, xp: 0, history: [] });
+}, 'duplicated');
+
+// ---------- Shop ----------
+const addReward = f => done(d => {
+  const name = (f.name || '').trim(), price = toP(f.price);
+  if (!name || name.length > 120 || !price || price > 10000000 || !CATS.includes(f.category)) fail('invalid');
+  d.rewards.unshift({ id:uid(), name, category:f.category, price, archived:false });
+}, 'added');
+const archiveReward = id => done(d => {
+  const r = d.rewards.find(x => x.id === id);
+  if (!r) fail('notfound');
+  r.archived = true;
+}, 'archived');
+function buy(rid, key) {
+  const r = run(d => {
+    if (d.used[key]) return { replayed:true };
+    const rw = d.rewards.find(x => x.id === rid && !x.archived);
+    if (!rw) fail('notfound');
+    post(d, 'shop_purchase', -rw.price, rw.name, rw.id);
+    d.spending += rw.price;
+    const p = { id:uid(), rewardId:rw.id, name:rw.name, category:rw.category||'custom', price:rw.price, status:'purchased', ts:Date.now() };
+    d.ledger[0].category = rw.category || 'custom';
+    d.purchases.unshift(p); d.used[key] = p.id;
+    return { purchase: p };
+  });
+  if (r && r.replayed) ok('dup');
+  else if (r) toast(T('bought'), 'ok', { label: T('undo'), fn: () => refund(r.purchase.id) });
+  return r;
+}
+function refund(pid) {
+  const r = run(d => {
+    const p = d.purchases.find(x => x.id === pid);
+    if (!p || p.status !== 'purchased') fail('invalid');
+    post(d, 'refund', p.price, p.name, p.id);
+    d.spending -= p.price; p.status = 'refunded';
+  });
+  if (r) ok('refunded');
+  return r;
+}
+function redeem(pid) {
+  const r = run(d => {
+    const p = d.purchases.find(x => x.id === pid);
+    if (!p) fail('notfound');
+    if (p.status === 'redeemed') return { already: true };
+    if (p.status !== 'purchased') fail('invalid');
+    p.status = 'redeemed'; p.redeemedAt = Date.now();
+  });
+  if (r && !r.already) ok('redeemed');
+  return r;
+}
+
+// ---------- Savings ----------
+function addGoal(f) {
+  return done(d => {
+    const name = (f.name || '').trim(), target = toP(f.target);
+    if (!name || name.length > 120 || !target || target > 10000000) fail('invalid');
+    if (!validDate(f.date)) fail('invalid');
+    d.goals.unshift({ id:uid(), name, target, saved:0, date:f.date || '', status:'active' });
+  }, 'goalAdded');
+}
+
+function deposit(gid, amount, key) {
+  const r = run(d => {
+    if (d.used[key]) return { replayed:true };
+    const g = d.goals.find(x => x.id === gid);
+    if (!g) fail('notfound');
+    if (g.status !== 'active') fail('notActive');
+    if (!amount || amount <= 0) fail('invalid');
+    if (amount > g.target - g.saved) fail('exceeds');
+    post(d, 'savings_deposit', -amount, g.name, g.id);
+    g.saved += amount; d.savings += amount; d.used[key] = g.id;
+    if (g.saved === g.target) g.status = 'completed';
+    return { completed: g.status === 'completed' };
+  });
+  if (r) ok(r.replayed ? 'dup' : r.completed ? 'goalDone' : 'depOk');
+  return r;
+}
+
+function withdraw(gid, amount, key) {
+  const r = run(d => {
+    if (d.used[key]) return { replayed:true };
+    const g = d.goals.find(x => x.id === gid);
+    if (!g) fail('notfound');
+    if (!amount || amount <= 0) fail('invalid');
+    if (amount > g.saved || amount > d.savings) fail('savedLow');
+    post(d, 'savings_withdrawal', amount, g.name, g.id);
+    g.saved -= amount; d.savings -= amount; d.used[key] = g.id;
+    if (g.status === 'completed') g.status = 'active';
+  });
+  if (r) ok(r.replayed ? 'dup' : 'wdOk');
+  return r;
+}
+
+// ---------- Cosmetics store: app-skin items bought with EGP, gated by level or achievement ----------
+const STR_Y = {
+ar:{cos:{pal_gold:'الذهبي الملكي',pal_emerald:'الزمرد',pal_sapphire:'الياقوت الأزرق',pal_ruby:'الروبي',pal_amethyst:'الجمشت',
+  t_disciplined:'لقب: المنضبط',t_architect:'لقب: صانع الإنجازات',t_saver:'لقب: سيّد الادخار',t_unstoppable:'لقب: لا يتوقف',t_legend:'لقب: الأسطورة الحيّة',
+  amb_none:'بدون خلفية خاصة',amb_aurora:'خلفية الشفق',amb_stars:'خلفية النجوم'},
+  kind:{palette:'ألوان التطبيق',title:'ألقاب',ambient:'خلفيات'},
+  equip:'تفعيل', unequip:'إزالة', active:'مُفعّل', equipMsg:'تم تحديث المظهر', needLevel:'يتطلب المستوى', needAch:'يتطلب إنجازاً',
+  cosHeading:'متجر التخصيص', ach:{collector:{n:'جامع الأناقة',d:'امتلك 3 عناصر تخصيص مشتراة'}},
+  err:{alreadyOwned:'تملك هذا العنصر بالفعل', locked:'هذا العنصر غير متاح بعد لمستواك أو إنجازاتك', notOwned:'يجب شراء العنصر أولاً'}},
+en:{cos:{pal_gold:'Royal Gold',pal_emerald:'Emerald',pal_sapphire:'Sapphire',pal_ruby:'Ruby',pal_amethyst:'Amethyst',
+  t_disciplined:'Title: The Disciplined',t_architect:'Title: Architect of Wins',t_saver:'Title: Lord of Savings',t_unstoppable:'Title: Unstoppable',t_legend:'Title: Living Legend',
+  amb_none:'No ambient effect',amb_aurora:'Aurora backdrop',amb_stars:'Starfield backdrop'},
+  kind:{palette:'App colours',title:'Titles',ambient:'Backdrops'},
+  equip:'Equip', unequip:'Remove', active:'Active', equipMsg:'Appearance updated', needLevel:'Requires level', needAch:'Requires achievement',
+  cosHeading:'Customization store', ach:{collector:{n:'Collector',d:'Own 3 purchased customization items'}},
+  err:{alreadyOwned:'You already own this item', locked:'This item is not unlocked for your level or achievements yet', notOwned:'Buy this item first'}}
+};
+for (const l of ['ar','en']) { const { err, ach, ...rest } = STR_Y[l]; Object.assign(STR[l], rest); Object.assign(STR[l].err, err); Object.assign(STR[l].ach, ach); }
+
+const STR_Z = {
+ar:{ cos:{pal_obsidian:'الفضي الفحمي',pal_jade:'اليشم',pal_coral:'المرجان',t_night:'لقب: صائد الليل',t_focus:'لقب: حارس التركيز',t_marathon:'لقب: الماراثوني',
+    amb_grid:'خلفية الشبكة',amb_ember:'خلفية الجمر',fx_none:'بدون تأثير',fx_confetti:'تأثير الكونفيتي',fx_sparks:'تأثير الشرر'},
+  kind:{fx:'تأثيرات الإكمال'}, nav:{focus:'التركيز'}, ach:{focus:{n:'مركّز',d:'أكمل 5 جلسات تركيز'}},
+  freq:{none:'مرة واحدة',daily:'يومياً',weekly:'أسبوعياً',monthly:'شهرياً'}, repeat:'التكرار', times:'مرة', minutes:'دقيقة', linkTask:'ربط بمهمة', noTask:'بدون مهمة',
+  start:'ابدأ', pause:'إيقاف مؤقت', reset:'إعادة ضبط', duration:'مدة الجلسة', todayFocus:'تركيز اليوم', sessions:'آخر الجلسات',
+  focusDone:'جلسة تركيز مكتملة · +15 XP', focusHeading:'وضع التركيز', focusHint:'اختر المدة، واربط الجلسة بمهمة إن أردت',
+  err:{notDue:'لم يحن موعد هذا التكرار بعد'} },
+en:{ cos:{pal_obsidian:'Obsidian Silver',pal_jade:'Jade',pal_coral:'Coral',t_night:'Title: Night Owl',t_focus:'Title: Focus Keeper',t_marathon:'Title: Marathoner',
+    amb_grid:'Grid backdrop',amb_ember:'Ember backdrop',fx_none:'No effect',fx_confetti:'Confetti effect',fx_sparks:'Sparks effect'},
+  kind:{fx:'Completion effects'}, nav:{focus:'Focus'}, ach:{focus:{n:'Deep worker',d:'Complete 5 focus sessions'}},
+  freq:{none:'Once',daily:'Daily',weekly:'Weekly',monthly:'Monthly'}, repeat:'Repeat', times:'times', minutes:'min', linkTask:'Link to task', noTask:'No task',
+  start:'Start', pause:'Pause', reset:'Reset', duration:'Session length', todayFocus:'Focus today', sessions:'Recent sessions',
+  focusDone:'Focus session complete · +15 XP', focusHeading:'Focus mode', focusHint:'Pick a length, and link the session to a task if you like',
+  err:{notDue:'This occurrence is not due yet'} }
+};
+for (const l of ['ar','en']) { const { cos, kind, nav, ach, err, ...rest } = STR_Z[l]; Object.assign(STR[l], rest); Object.assign(STR[l].cos, cos); Object.assign(STR[l].kind, kind); Object.assign(STR[l].nav, nav); Object.assign(STR[l].ach, ach); Object.assign(STR[l].err, err); }
+Object.assign(STR.ar.cos,{fr_neon:'إطار النيون',fr_fire:'إطار اللهب',fr_ocean:'إطار المحيط',fr_prism:'إطار المنشور البلوري',fr_royal:'إطار التاج الملكي',av_phoenix:'أفاتار العنقاء',av_ninja:'أفاتار النينجا',av_alien:'أفاتار الفضائي',av_fox:'أفاتار الثعلب الذهبي',av_dragon:'أفاتار التنين',amb_cyber:'خلفية السايبر',amb_sunset:'خلفية الغروب',amb_matrix:'خلفية المصفوفة',fx_lightning:'تأثير البرق',fx_hearts:'تأثير القلوب'});
+Object.assign(STR.en.cos,{fr_neon:'Neon Frame',fr_fire:'Inferno Frame',fr_ocean:'Ocean Frame',fr_prism:'Prismatic Frame',fr_royal:'Royal Crown Frame',av_phoenix:'Phoenix Avatar',av_ninja:'Ninja Avatar',av_alien:'Alien Avatar',av_fox:'Golden Fox Avatar',av_dragon:'Dragon Avatar',amb_cyber:'Cyber backdrop',amb_sunset:'Sunset backdrop',amb_matrix:'Matrix backdrop',fx_lightning:'Lightning effect',fx_hearts:'Hearts effect'});
+Object.assign(STR.ar.kind,{frame:'إطارات الصور',avatar:'أفاتارات مميزة'});Object.assign(STR.en.kind,{frame:'Profile frames',avatar:'Premium avatars'});
+Object.assign(STR.ar,{petBought:'تم شراء الرفيق الجديد 🐾',petEquipped:'أصبح هذا الرفيق نشطًا',petFed:'حيوانك سعيد! 🥰',petPlayed:'قضيت وقتًا ممتعًا مع رفيقك',dailyBonus:'مكافأة الدخول اليومية',claimBonus:'استلام المكافأة',bonusClaimed:'استلمت مكافأة اليوم بالفعل',bonusReceived:'تم استلام مكافأة الدخول وإضافة XP',bonusStreak:'سلسلة الدخول',bonusHint:'ادخل كل يوم لتحصل على مكافأة أكبر، حتى 7 أيام متتالية.'});
+Object.assign(STR.en,{petBought:'New companion purchased 🐾',petEquipped:'Companion equipped',petFed:'Your pet is happy! 🥰',petPlayed:'You spent time with your companion',dailyBonus:'Daily login bonus',claimBonus:'Claim bonus',bonusClaimed:'You already claimed today’s bonus',bonusReceived:'Daily bonus claimed and XP added',bonusStreak:'Login streak',bonusHint:'Check in daily for a growing reward, up to a 7-day streak.'});
+STR.ar.ltype.daily_bonus='مكافأة دخول يومية';STR.en.ltype.daily_bonus='Daily login bonus';STR.ar.err.bonusClaimed='استلمت مكافأة اليوم بالفعل';STR.en.err.bonusClaimed='You already claimed today’s bonus';
+
+const STR_EXTRA = {
+ar:{nav:{habits:'العادات',challenges:'التحديات',calendar:'التقويم',analytics:'التحليلات',profile:'ملفي',assistant:'المساعد',social:'الأصدقاء',auctions:'المزادات'},
+  extra:{habits:'عاداتي',habitName:'اسم العادة',habitFreq:'التكرار',markToday:'تم اليوم',habitStreak:'سلسلة العادة',noHabits:'لا توجد عادات بعد',challenges:'تحدياتي',challengeName:'اسم التحدي',metric:'نوع التحدي',target:'الهدف',prize:'المكافأة (ج.م)',claim:'استلام المكافأة',claimed:'تم استلام المكافأة',noChallenges:'لا توجد تحديات بعد',tasksMetric:'مهام مكتملة',focusMetric:'دقائق تركيز',habitsMetric:'مرات الالتزام بالعادات',calendar:'تقويمك',analytics:'تحليلات الأداء',profile:'الملف الشخصي',avatar:'الصورة الرمزية',displayName:'اسم العرض',bio:'نبذة قصيرة',saveProfile:'حفظ الملف',friends:'الأصدقاء',friendName:'اسم الصديق',addFriend:'إضافة صديق',noFriends:'أضف أسماء أصدقائك لعمل قائمة محلية',assistant:'مساعد EARN IT',ask:'اكتب سؤالك أو هدفك...',send:'إرسال',assistantIntro:'أنا مساعد محلي بسيط أساعدك تفهم تقدمك وتقترح خطوة تالية. لا أرسل بياناتك لأي خدمة خارجية.',notifications:'التنبيهات',enableNotifications:'تفعيل إشعارات المتصفح',notifyHint:'الإشعارات تعمل عندما يكون التطبيق مفتوحاً، حسب دعم المتصفح وإذنه.',economy:'مركز اقتصاد الحياة',focusHours:'ساعات التركيز',habitCompletions:'إنجازات العادات',challengeProgress:'تقدم التحديات',auctionHint:'سوق المزادات هنا سجل محلي تجريبي؛ لا يوجد مزايدون آخرون قبل ربط خادم ومستخدمين حقيقيين.',auctionName:'اسم العنصر',startBid:'سعر البداية',endDate:'موعد الإغلاق',createAuction:'إنشاء مزاد',noAuctions:'لا توجد مزادات بعد',localOnly:'محلي على هذا الجهاز',remove:'حذف',month:'الشهر',today:'اليوم',suggestion:'اقتراح',noData:'لا توجد بيانات كافية بعد',permissionDenied:'لم يسمح المتصفح بالإشعارات',notificationOn:'تم تفعيل الإشعارات',profileSaved:'تم حفظ الملف',habitAdded:'تمت إضافة العادة',challengeAdded:'تم إنشاء التحدي',friendAdded:'تمت إضافة الصديق',auctionAdded:'تم إنشاء المزاد',askFirst:'اكتب شيئاً أولاً'},
+  ltype:{challenge_reward:'مكافأة تحدٍ'},err:{badTarget:'الهدف غير صالح',claimed:'استلمت مكافأة هذا التحدي بالفعل',already:'تم تسجيل هذه العادة اليوم بالفعل'}},
+en:{nav:{habits:'Habits',challenges:'Challenges',calendar:'Calendar',analytics:'Analytics',profile:'Profile',assistant:'Assistant',social:'Friends',auctions:'Auctions'},
+  extra:{habits:'My habits',habitName:'Habit name',habitFreq:'Frequency',markToday:'Done today',habitStreak:'Habit streak',noHabits:'No habits yet',challenges:'My challenges',challengeName:'Challenge name',metric:'Challenge metric',target:'Target',prize:'Reward (EGP)',claim:'Claim reward',claimed:'Reward claimed',noChallenges:'No challenges yet',tasksMetric:'Completed tasks',focusMetric:'Focus minutes',habitsMetric:'Habit check-ins',calendar:'Your calendar',analytics:'Performance analytics',profile:'Profile',avatar:'Avatar',displayName:'Display name',bio:'Short bio',saveProfile:'Save profile',friends:'Friends',friendName:'Friend name',addFriend:'Add friend',noFriends:'Add friend names to a local list',assistant:'EARN IT assistant',ask:'Ask a question or share a goal...',send:'Send',assistantIntro:'I am a simple local assistant for reviewing progress and suggesting next steps. Your data is not sent to an external service.',notifications:'Notifications',enableNotifications:'Enable browser notifications',notifyHint:'Notifications work while the app is open, subject to browser support and permission.',economy:'Life Economy center',focusHours:'Focus hours',habitCompletions:'Habit check-ins',challengeProgress:'Challenge progress',auctionHint:'This is a local demo auction list; there are no other bidders until a backend and real users are connected.',auctionName:'Item name',startBid:'Starting bid',endDate:'Closing date',createAuction:'Create auction',noAuctions:'No auctions yet',localOnly:'Local on this device',remove:'Delete',month:'Month',today:'Today',suggestion:'Suggestion',noData:'Not enough data yet',permissionDenied:'Browser notification permission was denied',notificationOn:'Notifications enabled',profileSaved:'Profile saved',habitAdded:'Habit added',challengeAdded:'Challenge created',friendAdded:'Friend added',auctionAdded:'Auction created',askFirst:'Write something first'},
+  ltype:{challenge_reward:'Challenge reward'},err:{badTarget:'Invalid target',claimed:'You already claimed this challenge reward',already:'This habit is already checked in today'}}
+};
+for (const l of ['ar','en']) { Object.assign(STR[l].nav, STR_EXTRA[l].nav); Object.assign(STR[l], {extra:STR_EXTRA[l].extra}); Object.assign(STR[l].ltype, STR_EXTRA[l].ltype); Object.assign(STR[l].err, STR_EXTRA[l].err); }
+Object.assign(STR.ar.nav,{missions:'المهام الكبرى'}); Object.assign(STR.en.nav,{missions:'Milestones'});
+Object.assign(STR.ar,{missions:{title:'المهام الكبرى',hint:'أهداف يومية وأسبوعية وشهرية بمكافآت إضافية. استلم المكافأة بنفسك بعد إكمال الهدف.',day:'يومي',week:'أسبوعي',month:'شهري',tasks3:'أكمل 3 مهام',earn50:'اربح 50 جنيهًا من المهام',focus25:'ركّز لمدة 25 دقيقة',tasks15:'أكمل 15 مهمة',focus180:'ركّز لمدة 180 دقيقة',earn500:'اربح 500 جنيه من المهام',tasks60:'أكمل 60 مهمة',focus600:'ركّز لمدة 600 دقيقة',claim:'استلام المكافأة',claimed:'تم الاستلام',notReady:'لم يكتمل الهدف بعد',ready:'جاهز للاستلام',progress:'التقدم',reward:'المكافأة',xp:'نقطة خبرة',empty:'لا توجد مهام كبرى حاليًا'}}); Object.assign(STR.ar.err,{missionNotReady:'لم تحقق هدف هذه المهمة بعد',missionClaimed:'استلمت مكافأة هذه المهمة بالفعل'});
+Object.assign(STR.en,{missions:{title:'Milestones',hint:'Daily, weekly and monthly goals with bonus rewards. Claim each reward manually after reaching its target.',day:'Daily',week:'Weekly',month:'Monthly',tasks3:'Complete 3 tasks',earn50:'Earn EGP 50 from tasks',focus25:'Focus for 25 minutes',tasks15:'Complete 15 tasks',focus180:'Focus for 180 minutes',earn500:'Earn EGP 500 from tasks',tasks60:'Complete 60 tasks',focus600:'Focus for 600 minutes',claim:'Claim reward',claimed:'Claimed',notReady:'Target not reached yet',ready:'Ready to claim',progress:'Progress',reward:'Reward',xp:'XP',empty:'No milestones available right now'}}); Object.assign(STR.en.err,{missionNotReady:'You have not reached this milestone target yet',missionClaimed:'You already claimed this milestone reward'});
+
+
+const addDays = (iso, n) => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate() + n); return ymd(d); };
+const addMonths = (iso,n,anchorDay) => { const [y,m,day]=iso.split('-').map(Number); const d=new Date(y,m-1+n,1); const targetDay=Number(anchorDay)||day; d.setDate(Math.min(targetDay,new Date(d.getFullYear(),d.getMonth()+1,0).getDate())); return ymd(d); };
+
+const COS = [
+  { id:'pal_gold', kind:'palette', price:0, colors:['#d4af37','#f6e27a'], req:null },
+  { id:'pal_emerald', kind:'palette', price:4000, colors:['#2fbf71','#a7f3d0'], req:{ level:5 } },
+  { id:'pal_sapphire', kind:'palette', price:6000, colors:['#3b82f6','#bfdbfe'], req:{ level:10 } },
+  { id:'pal_ruby', kind:'palette', price:8000, colors:['#e11d48','#fecdd3'], req:{ ach:'earn1000' } },
+  { id:'pal_amethyst', kind:'palette', price:12000, colors:['#a855f7','#e9d5ff'], req:{ level:20 } },
+  { id:'t_disciplined', kind:'title', price:1500, req:{ level:3 } },
+  { id:'t_architect', kind:'title', price:3000, req:{ ach:'ten' } },
+  { id:'t_saver', kind:'title', price:3000, req:{ ach:'saver' } },
+  { id:'t_unstoppable', kind:'title', price:5000, req:{ ach:'streak7' } },
+  { id:'t_legend', kind:'title', price:20000, req:{ level:40 } },
+  { id:'amb_none', kind:'ambient', price:0, req:null },
+  { id:'amb_aurora', kind:'ambient', price:2500, req:{ level:8 } },
+  { id:'amb_stars', kind:'ambient', price:3500, req:{ level:15 } },
+  { id:'pal_obsidian', kind:'palette', price:5000, colors:['#cbd5e1','#f1f5f9'], req:{ level:12 } },
+  { id:'pal_jade', kind:'palette', price:7000, colors:['#14b8a6','#99f6e4'], req:{ level:15 } },
+  { id:'pal_coral', kind:'palette', price:9000, colors:['#fb7185','#fecdd3'], req:{ ach:'ten' } },
+  { id:'t_night', kind:'title', price:2000, req:{ level:6 } },
+  { id:'t_focus', kind:'title', price:2500, req:{ ach:'focus' } },
+  { id:'t_marathon', kind:'title', price:4000, req:{ level:25 } },
+  { id:'amb_grid', kind:'ambient', price:2000, req:{ level:6 } },
+  { id:'amb_ember', kind:'ambient', price:3000, req:{ level:12 } },
+  { id:'fx_none', kind:'fx', price:0, req:null },
+  { id:'fx_confetti', kind:'fx', price:1800, req:{ level:4 } },
+  { id:'fx_sparks', kind:'fx', price:2800, req:{ ach:'ten' } },
+  { id:'fr_neon', kind:'frame', price:3200, req:{ level:5 } },
+  { id:'fr_fire', kind:'frame', price:5200, req:{ level:10 } },
+  { id:'fr_ocean', kind:'frame', price:6500, req:{ level:12 } },
+  { id:'fr_prism', kind:'frame', price:9800, req:{ level:18 } },
+  { id:'fr_royal', kind:'frame', price:15000, req:{ level:25 } },
+  { id:'av_phoenix', kind:'avatar', value:'🪽', price:4500, req:{ level:8 } },
+  { id:'av_ninja', kind:'avatar', value:'🥷', price:3500, req:{ level:6 } },
+  { id:'av_alien', kind:'avatar', value:'👽', price:2800, req:{ level:4 } },
+  { id:'av_fox', kind:'avatar', value:'🦊', price:5000, req:{ ach:'ten' } },
+  { id:'av_dragon', kind:'avatar', value:'🐲', price:11000, req:{ level:20 } },
+  { id:'amb_cyber', kind:'ambient', price:4200, req:{ level:10 } },
+  { id:'amb_sunset', kind:'ambient', price:3600, req:{ level:8 } },
+  { id:'amb_matrix', kind:'ambient', price:7500, req:{ level:16 } },
+  { id:'fx_lightning', kind:'fx', price:4200, req:{ level:12 } },
+  { id:'fx_hearts', kind:'fx', price:2500, req:{ level:7 } },
+];
+
+const PETS = [
+  {id:'pet_fox',name:'الثعلب',emoji:'🦊',stages:['🦊','🦊✨','🦊🔥','🦊👑'],price:2800,desc:'ذكي وسريع ويحب الإنجاز.'},
+  {id:'pet_cat',name:'القط',emoji:'🐱',stages:['🐱','🐱💫','🐈','🐈‍⬛✨'],price:2200,desc:'رفيق هادئ يحب جلسات التركيز.'},
+  {id:'pet_owl',name:'البومة',emoji:'🦉',stages:['🦉','🦉📘','🦉🌟','🦉👑'],price:4200,desc:'حكيمة وتكافئك على التعلم.'},
+  {id:'pet_slime',name:'السلايم',emoji:'🟢',stages:['🟢','🟢✨','🟩💎','🟢👑'],price:5200,desc:'مخلوق مرح يتطور مع عاداتك.'},
+  {id:'pet_dragon',name:'التنين',emoji:'🐉',stages:['🐉','🐉🔥','🐲','🐲👑'],price:12000,desc:'رفيق أسطوري يحتاج صبرًا وإنجازًا.'},
+  {id:'pet_unicorn',name:'اليونيكورن',emoji:'🦄',stages:['🦄','🦄✨','🦄🌈','🦄👑'],price:9000,desc:'مخلوق نادر ينمو مع تقدمك.'}
+];
+const petById = id => PETS.find(p=>p.id===id);
+function petLevel(xp=0){return xp>=500?4:xp>=250?3:xp>=100?2:1;}
+function petGain(d, amount){if(!d.pets?.active)return 0;const gain=Math.max(0,Math.floor(amount));d.pets.xp=Math.max(0,(d.pets.xp||0)+gain);d.pets.bond=Math.min(100,(d.pets.bond||0)+1);return gain;}
+function buyPet(id){return done(d=>{const p=petById(id);if(!p)fail('notfound');if(d.pets.owned.includes(id))fail('alreadyOwned');post(d,'shop_purchase',-p.price,'حيوان أليف: '+p.name,id);d.spending+=p.price;d.pets.owned.push(id);if(!d.pets.active)d.pets.active=id;},'petBought');}
+function equipPet(id){return done(d=>{if(!d.pets.owned.includes(id))fail('notOwned');d.pets.active=id;},'petEquipped');}
+function feedPet(){return done(d=>{if(!d.pets.active)fail('noPet');const now=Date.now();if(d.pets.lastFedAt&&now-d.pets.lastFedAt<4*60*60*1000)fail('petFedRecently');const cost=150;if(d.balance<cost)fail('insufficient');post(d,'pet_feed',-cost,'إطعام الحيوان الأليف',d.pets.active);d.spending+=cost;d.pets.lastFedAt=now;d.pets.bond=Math.min(100,(d.pets.bond||0)+12);d.pets.xp=(d.pets.xp||0)+5;},'petFed');}
+function playWithPet(){return done(d=>{if(!d.pets.active)fail('noPet');if(d.pets.lastPlayDate===today())fail('petPlayedToday');d.pets.lastPlayDate=today();d.pets.bond=Math.min(100,(d.pets.bond||0)+8);d.pets.xp=(d.pets.xp||0)+5;},'petPlayed');}
+function petShopSection(){const cards=PETS.map(p=>{const owned=S.pets.owned.includes(p.id),active=S.pets.active===p.id,can=S.balance>=p.price;return `<section class="card pet-card"><div class="pet-preview" aria-hidden="true">${p.emoji}</div><b>${p.name}</b><p class="muted">${p.desc}</p><div class="actions">${owned?(active?'<span class="tag pos">✓ رفيقك الحالي</span>':`<button data-act="pet-equip" data-id="${p.id}">اختيار الرفيق</button>`):`<button class="primary" data-act="pet-buy" data-id="${p.id}" ${can?'':'disabled'}>${fmt(p.price)} · شراء</button>`}</div></section>`}).join('');return `<section class="card"><h3>🐾 متجر الحيوانات الأليفة</h3><p class="muted">اشترِ رفيقًا افتراضيًا، واهتم به، وسيتطور كلما أنجزت مهامك. الأسعار بعملة EARN الافتراضية.</p><div class="grid">${cards}</div></section>`;}
+function petsView(){const id=S.pets.active,p=petById(id),level=petLevel(S.pets.xp),threshold=[0,100,250,500,500][level],previous=[0,0,100,250,500][level],pct=level===4?100:Math.max(0,Math.min(100,Math.round(((S.pets.xp-previous)/(threshold-previous))*100))),fed=S.pets.lastFedAt&&Date.now()-S.pets.lastFedAt<4*60*60*1000;const emoji=p?p.stages[level-1]:'';const owned=S.pets.owned.map(pid=>petById(pid)).filter(Boolean);return `<section class="card"><h3>🐾 حيواناتي الأليفة</h3>${p?`<div class="grid two"><div class="pet-stage"><span class="pet-emoji" aria-label="${p.name}">${emoji}</span></div><div><h2>${p.name} ${level===4?'👑':''}</h2><p class="muted">${p.desc}</p><div class="tag">المستوى ${level} من 4</div><div class="bar"><i style="width:${pct}%"></i></div><p class="muted">${level===4?'وصل لأقصى تطور!':`${S.pets.xp-previous} / ${threshold-previous} XP للتطور التالي`}</p><div class="pet-stats"><div class="card"><small class="muted">💞 الترابط</small><b>${S.pets.bond||0}/100</b></div><div class="card"><small class="muted">🍖 آخر إطعام</small><b>${fed?'تم إطعامه مؤخرًا':'يمكنك إطعامه الآن'}</b></div></div><div class="actions" style="margin-top:12px"><button class="primary" data-act="pet-feed" ${fed?'disabled':''}>إطعام · 1.50 EARN</button><button data-act="pet-play" ${S.pets.lastPlayDate===today()?'disabled':''}>العب معه</button></div><p class="muted">ينمو الحيوان مع إكمال المهام وجلسات التركيز والعادات والتحديات.</p></div></div>`:`<p class="muted">لسه معندكش حيوان أليف. اختار رفيقك الأول من المتجر!</p><button class="primary" data-act="tab" data-tab="shop">افتح متجر الحيوانات</button>`}</section><section class="card"><h3>رفاقك المملوكون</h3><div class="grid">${owned.map(x=>`<div class="card pet-card"><div class="pet-preview">${x.emoji}</div><b>${x.name}</b><button data-act="pet-equip" data-id="${x.id}" ${x.id===id?'disabled':''}>${x.id===id?'نشط':'اختيار'}</button></div>`).join('')||'<p class="muted">لا يوجد حيوانات بعد.</p>'}</div></section>`;}
+
+const DEFAULT_EQ = { palette:'pal_gold', title:'', ambient:'amb_none', fx:'fx_none', frame:'rare', avatar:'' };
+const cosById = id => COS.find(x => x.id === id);
+const reqMet = (it, s) => !it.req || (it.req.level ? levelOf(s.xp) >= it.req.level : s.achievements.includes(it.req.ach));
+const reqText = it => (it.req.level ? `${T('needLevel')} ${it.req.level}` : `${T('needAch')}: ${T('ach.' + it.req.ach + '.n')}`);
+
+function buyCosmetic(id, key) {
+  const r = run(d => {
+    if (d.used[key]) return { replayed: true };
+    const it = cosById(id);
+    if (!it) fail('notfound');
+    if (d.cos.owned.includes(id)) fail('alreadyOwned');
+    if (!reqMet(it, d)) fail('locked');
+    post(d, 'shop_purchase', -it.price, T('cos.' + id), id);
+    d.spending += it.price; d.cos.owned.push(id); d.used[key] = id;
+    return { item: it };
+  });
+  if (r && r.replayed) ok('dup');
+  else if (r) toast(T('bought'), 'ok', { label: T('undo'), fn: () => refundCos(r.item.id) });
+  return r;
+}
+function refundCos(id) {
+  const r = run(d => {
+    const it = cosById(id);
+    if (!it || it.price === 0 || !d.cos.owned.includes(id)) fail('invalid');
+    post(d, 'refund', it.price, T('cos.' + id), id);
+    d.spending -= it.price;
+    d.cos.owned = d.cos.owned.filter(x => x !== id);
+    for (const k of Object.keys(DEFAULT_EQ)) if (d.cos.eq[k] === id) d.cos.eq[k] = DEFAULT_EQ[k]; if(d.profile.frame===id)d.profile.frame='rare'; if(it.kind==='avatar'&&d.profile.avatar===it.value)d.profile.avatar='🧑‍🚀';
+  });
+  if (r) ok('refunded');
+  return r;
+}
+function equipCos(id) {
+  return done(d => {
+    const it = cosById(id);
+    if (!it) fail('notfound');
+    if (!d.cos.owned.includes(id)) fail('notOwned');
+    if (it.kind === 'title') d.cos.eq.title = d.cos.eq.title === id ? '' : id;
+    else { d.cos.eq[it.kind] = id; if(it.kind==='frame') d.profile.frame=id; if(it.kind==='avatar') d.profile.avatar=it.value; }
+  }, 'equipMsg');
+}
+function applyCos() {
+  const pal = cosById(S.cos.eq.palette) || cosById('pal_gold'), root = document.documentElement.style;
+  root.setProperty('--gold', pal.colors[0]); root.setProperty('--gold2', pal.colors[1]);
+  document.body.dataset.amb = S.cos.eq.ambient;
+  const t = cosById(S.cos.eq.title);
+  $('#ctitle').textContent = t ? T('cos.' + t.id) : '';
+}
+function cosSection() {
+  const cards = COS.map(it => {
+    const owned = S.cos.owned.includes(it.id), on = S.cos.eq[it.kind] === it.id;
+    let action;
+    if (owned && it.kind === 'title') action = `<button type="button" data-act="coseq" data-id="${it.id}">${on ? T('unequip') : T('equip')}</button>`;
+    else if (owned) action = on ? `<span class="tag pos">✓ ${T('active')}</span>` : `<button type="button" data-act="coseq" data-id="${it.id}">${T('equip')}</button>`;
+    else if (reqMet(it, S)) action = `<button class="primary" type="button" data-act="cosbuy" data-id="${it.id}">${fmt(it.price)} · ${T('buy')}</button>`;
+    else action = `<span class="muted">🔒 ${reqText(it)}</span>`;
+    const sw = it.kind === 'palette' ? `<i class="sw" style="background:linear-gradient(135deg,${it.colors[0]},${it.colors[1]})"></i>` : it.kind==='frame' ? `<div class="cos-preview"><div class="avatar-wrap frame-${it.id.replace('fr_','')}"><span class="avatar-emoji">⭐</span></div></div>` : it.kind==='avatar' ? `<div class="cos-preview"><span class="avatar-emoji" style="font-size:3rem">${it.value}</span></div>` : it.kind==='fx' ? `<div class="cos-preview" style="font-size:2rem">✨⚡✨</div>` : it.kind==='ambient' ? `<div class="cos-preview" style="background:radial-gradient(circle at 30% 30%,rgba(34,211,238,.28),transparent 60%),var(--panel);font-size:2rem">🌌</div>` : '';
+    return `<section class="card cos">${sw}<b>${esc(T('cos.' + it.id))}</b><div class="muted">${T('kind.' + it.kind)}</div><div class="actions" style="margin-top:10px">${action}</div></section>`;
+  }).join('');
+  return `<h3 style="margin:18px 0 0">${T('cosHeading')}</h3><section class="grid" style="margin-top:10px">${cards}</section>`;
+}
+
+// ---------- Focus mode: timer survives tab switches; sessions are recorded and rewarded ----------
+const FOCUS = { len: 25, left: 25 * 60, endAt: 0, timer: null, tid: '' };
+function saveFocusClock() { try { localStorage.setItem('earnit.focus', JSON.stringify({len:FOCUS.len,left:FOCUS.left,endAt:FOCUS.endAt,tid:FOCUS.tid,active:!!FOCUS.timer})); } catch {} }
+function restoreFocusClock() { try { const x=JSON.parse(localStorage.getItem('earnit.focus')||'null'); if (!x) return false; if ([15,25,45,60].includes(x.len)) FOCUS.len=x.len; FOCUS.tid=typeof x.tid==='string'?x.tid:''; if (x.active && Number.isFinite(x.endAt)) { if (x.endAt>Date.now()) { FOCUS.endAt=x.endAt; FOCUS.left=Math.max(0,Math.ceil((x.endAt-Date.now())/1000)); FOCUS.timer=setInterval(focusTick,500); return false; } FOCUS.left=0; FOCUS.expired=true; return true; } FOCUS.left=Number.isFinite(Number(x.left))?Math.max(0,Math.min(FOCUS.len*60,Number(x.left))):FOCUS.len*60; return false; } catch { return false; } }
+const fmtClock = sec => `${pad(Math.floor(sec / 60))}:${pad(sec % 60)}`;
+const leftNow = () => (FOCUS.timer ? Math.max(0, Math.round((FOCUS.endAt - Date.now()) / 1000)) : FOCUS.left);
+const taskTitle = id => (S.tasks.find(t => t.id === id) || {}).title || '';
+function focusStart() {
+  if (FOCUS.timer) return;
+  FOCUS.endAt = Date.now() + FOCUS.left * 1000;
+  FOCUS.timer = setInterval(focusTick, 500); saveFocusClock();
+}
+function focusPause() { if (!FOCUS.timer) return; FOCUS.left = leftNow(); clearInterval(FOCUS.timer); FOCUS.timer = null; saveFocusClock(); }
+function focusReset() { focusPause(); FOCUS.left = FOCUS.len * 60; FOCUS.endAt = 0; saveFocusClock(); }
+function focusTick() {
+  if (leftNow() <= 0) { focusFinish(); return; }
+  const el = $('#ftime');
+  if (el) el.textContent = fmtClock(leftNow());
+}
+function focusFinish() {
+  clearInterval(FOCUS.timer); FOCUS.timer = null; FOCUS.left = FOCUS.len * 60; FOCUS.endAt = 0; saveFocusClock();
+  const minutes = FOCUS.len, tid = FOCUS.tid;
+  const r = run(d => { d.focus.unshift({ id: uid(), ts: Date.now(), min: minutes, tid }); d.xp += 15; petGain(d, 8); });
+  beep();
+  if (r) ok('focusDone');
+  render();
+}
+function beep() {
+  try {
+    const C = window.AudioContext || window.webkitAudioContext, c = new C(), o = c.createOscillator(), g = c.createGain();
+    o.frequency.value = 880; g.gain.value = 0.06; o.connect(g); g.connect(c.destination);
+    o.start(); o.stop(c.currentTime + 0.35);
+  } catch {}
+}
+function celebrate() {
+  const kind = S.cos.eq.fx, layer = $('#fx');
+  if (!kind || kind === 'fx_none' || !layer) return;
+  const cols = (cosById(S.cos.eq.palette) || cosById('pal_gold')).colors;
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('i');
+    p.className = 'p ' + (kind === 'fx_sparks' || kind === 'fx_lightning' ? 'spark' : 'conf');
+    p.style.left = (kind === 'fx_sparks' ? 50 : Math.random() * 100) + '%';
+    p.style.background = kind==='fx_hearts' ? '#fb7185' : kind==='fx_lightning' ? '#67e8f9' : cols[i % 2]; p.textContent = kind==='fx_hearts' ? '♥' : kind==='fx_lightning' ? '✦' : ''; if(p.textContent){p.style.background='transparent';p.style.color=kind==='fx_hearts'?'#fb7185':'#67e8f9';p.style.fontSize='16px';}
+    p.style.animationDelay = (Math.random() * 0.3) + 's';
+    p.style.setProperty('--dx', (Math.random() * 180 - 90) + 'px');
+    layer.append(p);
+  }
+  setTimeout(() => layer.replaceChildren(), 2000);
+}
+
+// ---------- Data ----------
+function exportData() {
+  const url = URL.createObjectURL(new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' }));
+  const a = Object.assign(document.createElement('a'), { href: url, download: 'earn-it-export.json' });
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  ok('exported');
+}
+async function importDataFile(file) {
+  if (!file || file.size > 5*1024*1024) { toast('ملف غير صالح أو أكبر من 5 ميجابايت','err'); return false; }
+  try { const candidate=JSON.parse(await file.text()); invariants(candidate); if(!candidate||typeof candidate!=='object'||!Array.isArray(candidate.tasks)||!Array.isArray(candidate.goals)||!Array.isArray(candidate.ledger)||!Array.isArray(candidate.purchases)||!Array.isArray(candidate.rewards)||!Number.isSafeInteger(candidate.balance)||!Number.isSafeInteger(candidate.savings)) throw new Error('shape'); candidate.habits??=[];candidate.challenges??=[];candidate.profile??={name:'',avatar:'🧑‍🚀',bio:'',photo:'',frame:'rare'};candidate.profile.photo??='';candidate.profile.frame??='rare';candidate.friends??=[];candidate.notifications??={enabled:false,permission:'default'};candidate.auctions??=[];candidate.dailyBonus??={lastDate:'',streak:0};candidate.claims=Array.isArray(candidate.claims)?candidate.claims.filter(x=>typeof x==='string'&&x.length<=100):[];candidate.pets??={owned:[],active:'',xp:0,bond:0,lastFedAt:0,lastPlayDate:''};candidate.pets.xp=Math.max(0,Number(candidate.pets.xp)||0);candidate.pets.bond=Math.max(0,Math.min(100,Number(candidate.pets.bond)||0));candidate.pets.lastFedAt=Number(candidate.pets.lastFedAt)||0;candidate.pets.lastPlayDate||='';candidate.pets.owned=Array.isArray(candidate.pets.owned)?candidate.pets.owned.filter(id=>PETS.some(p=>p.id===id)):[];candidate.pets.active=candidate.pets.owned.includes(candidate.pets.active)?candidate.pets.active:'';candidate.used??={};candidate.cos??={};candidate.cos.owned=Array.isArray(candidate.cos.owned)?candidate.cos.owned:['pal_gold','amb_none','fx_none'];candidate.cos.eq=candidate.cos.eq&&typeof candidate.cos.eq==='object'?candidate.cos.eq:{};Object.assign(candidate.cos.eq,{palette:candidate.cos.eq.palette||'pal_gold',title:candidate.cos.eq.title||'',ambient:candidate.cos.eq.ambient||'amb_none',fx:candidate.cos.eq.fx||'fx_none',frame:candidate.cos.eq.frame||candidate.profile.frame||'rare',avatar:candidate.cos.eq.avatar||''});candidate.tasks.forEach(t=>{t.history??=[];t.freq??='none';t.monthDay??=Number((t.due||today()).slice(8,10));}); if(!persist(candidate)) throw new Error('storage'); S=candidate; render(); toast('تم استيراد النسخة الاحتياطية بنجاح'); return true; } catch(e) { console.error(e); toast('تعذر استيراد الملف؛ تأكد أنه نسخة EARN IT صحيحة','err'); return false; }
+}
+function exportCsv() {
+  const safe = s => (/^[=+\-@]/.test(String(s)) ? "'" + s : String(s));
+  const cell = v => `"${String(v).replace(/"/g, '""')}"`;
+  const rows = [[T('date'), T('type'), T('desc'), 'EGP', T('after')],
+    ...S.ledger.map(e => [new Date(e.ts).toISOString(), T('ltype.' + e.type), safe(e.desc), (e.amount / 100).toFixed(2), (e.after / 100).toFixed(2)])];
+  const blob = new Blob(['\ufeff' + rows.map(r => r.map(cell).join(',')).join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement('a'), { href: url, download: 'earn-it-ledger.csv' });
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  ok('csvDone');
+}
+async function notifyDueTasks() {
+  if (!S.notifications?.enabled || !('Notification' in window) || Notification.permission!=='granted') return;
+  const day=today(); try { if(localStorage.getItem('earnit.lastReminder')===day) return; } catch {}
+  const due=S.tasks.filter(t=>t.status==='pending' && t.due && t.due<=day).length,ready=MILESTONES.filter(m=>milestoneState(m).ready).length; if(!due&&!ready) return;
+  try { new Notification('EARN IT · تذكير',{body:`${due?`لديك ${due} مهمة مستحقة أو متأخرة. `:''}${ready?`لديك ${ready} مكافأة كبرى جاهزة للاستلام.`:''}`}); localStorage.setItem('earnit.lastReminder',day); } catch {}
+}
+async function resetAll() {
+  if (!(await confirmBox(T('resetConfirm')))) return false;
+  const f = freshState();
+  if (!persist(f)) { toast(T('err.storage'), 'err'); return false; }
+  S = f; try { localStorage.removeItem('earnit.session'); localStorage.removeItem('earnit.focus'); localStorage.removeItem('earnit.lastReminder'); }  catch {} if (FOCUS.timer) clearInterval(FOCUS.timer); FOCUS.timer=null; FOCUS.left=FOCUS.len*60; FOCUS.endAt=0; ok('resetDone'); return true;
+}
+
+// ---------- Modal (replaces native confirm; keyboard accessible) ----------
+const modalEl = () => $('#modal');
+function openModal(html) {
+  const m = modalEl();
+  m.innerHTML = `<div class="panel" role="dialog" aria-modal="true">${html}</div>`;
+  m.hidden = false;
+  (m.querySelector('input,select') || m.querySelector('button'))?.focus();
+}
+function closeModal(v = false) {
+  const m = modalEl(), res = m._res;
+  m._res = null; m.hidden = true; m.innerHTML = '';
+  if (res) res(v);
+}
+function confirmBox(msg) {
+  return new Promise(res => {
+    openModal(`<p>${esc(msg)}</p><div class="actions" style="justify-content:flex-end"><button type="button" data-act="modal-no">${T('cancel')}</button><button class="primary" type="button" data-act="modal-ok">${T('ok')}</button></div>`);
+    modalEl()._res = res;
+  });
+}
+function editTaskModal(id) {
+  const t = S.tasks.find(x => x.id === id);
+  if (!t) return;
+  openModal(`<h3>${T('editTask')}</h3><form data-form="edit" data-id="${t.id}">
+    <label>${T('title')}<input name="title" required maxlength="200" value="${esc(t.title)}"></label>
+    <label>${T('difficulty')}<select name="difficulty">${Object.keys(DIFF).map(k => `<option value="${k}" ${k === t.difficulty ? 'selected' : ''}>${T(k)}</option>`).join('')}</select></label>
+    <label>${T('reward')}<input name="reward" inputmode="decimal" value="${(t.reward / 100).toFixed(2)}"></label>
+    <label>${T('repeat')}<select name="freq">${['none', 'daily', 'weekly', 'monthly'].map(k => `<option value="${k}" ${k === t.freq ? 'selected' : ''}>${T('freq.' + k)}</option>`).join('')}</select></label>
+    <label>${T('due')}<input type="date" name="due" value="${esc(t.due)}"></label>
+    <div class="actions" style="justify-content:flex-end"><button type="button" data-act="modal-no">${T('cancel')}</button><button class="primary" type="submit">${T('save')}</button></div>
+  </form>`);
+}
+
+// ---------- Views ----------
+function stats() {
+  const t0 = startOfToday(), td = today();
+  const dayTasks = S.tasks.filter(t => t.due === td || (isRec(t) && (t.history || []).some(h => h.date === td)));
+  const doneDay = dayTasks.filter(t => isRec(t) ? (t.history || []).some(h => h.date === td) : (t.status === 'completed' && t.completedAt >= t0)).length;
+  return {
+    todayEarn: S.ledger.filter(e => e.ts >= t0 && ['task_reward','daily_bonus','challenge_reward','reversal'].includes(e.type)).reduce((a, e) => a + e.amount, 0),
+    pct: dayTasks.length ? Math.round(doneDay / dayTasks.length * 100) : null,
+    done: doneCount(S),
+    pending: S.tasks.filter(t => t.status === 'pending').length,
+    overdue: S.tasks.filter(t => t.status === 'pending' && t.due && t.due < td).length,
+  };
+}
+const stat = (label, value, cls = '') => `<div class="card stat"><small>${label}</small><b class="${cls}">${value}</b></div>`;
+const ledgerLine = e => `<div class="row"><div><b>${esc(e.desc)}</b><div class="muted">${T('ltype.' + e.type)} · ${fmtDate(e.ts)}</div></div><b class="${e.amount > 0 ? 'pos' : 'neg'}">${sign(e.amount)}</b></div>`;
+function taskRow(t) {
+  const late = t.status === 'pending' && t.due && t.due < today();
+  const rec = isRec(t);
+  const actions = t.status === 'pending'
+    ? `<button type="button" data-act="edit" data-id="${t.id}">${T('edit')}</button>
+       <button type="button" data-act="postpone" data-id="${t.id}">${T('postpone')}</button>
+       <button type="button" data-act="dup" data-id="${t.id}">${T('duplicate')}</button>
+       <button class="primary" type="button" data-act="complete" data-id="${t.id}">${T('complete')}</button>
+       <button class="danger" type="button" data-act="deltask" data-id="${t.id}">${T('delete')}</button>`
+    : `<span class="tag pos">✓ ${T('done')}</span>`;
+  return `<div class="row ${t.status === 'completed' ? 'done' : ''}">
+    <div><b>${esc(t.title)}</b><div class="muted"><span class="tag">${T(t.difficulty)}</span> ${rec ? `<span class="tag">🔁 ${T('freq.' + t.freq)}</span> ` : ''}${esc(t.due)} ${late ? `<span class="neg">${T('overdue')}</span>` : ''}${rec && t.history.length ? ` · ${t.history.length} ${T('times')}` : ''}</div></div>
+    <div class="actions"><b class="pos">${fmt(t.reward)}</b>${actions}</div></div>`;
+}
+function taskList() {
+  const q = ui.q.trim().toLowerCase(), f = ui.filter, td = today();
+  const keep = t => (!q || t.title.toLowerCase().includes(q)) && (
+    f === 'all' ? true : f === 'completed' ? t.status === 'completed' : f === 'pending' ? t.status === 'pending' : t.status === 'pending' && t.due && t.due < td);
+  const cmp = { due: (a, b) => (a.due || '9999').localeCompare(b.due || '9999'), reward: (a, b) => b.reward - a.reward, title: (a, b) => a.title.localeCompare(b.title, loc()) }[ui.sort];
+  return S.tasks.filter(keep).slice().sort(cmp).map(taskRow).join('') || `<p class="muted">${T('noTasks')}</p>`;
+}
+function weekChart() {
+  const base = new Date(); base.setHours(0, 0, 0, 0);
+  const days = [...Array(7)].map((_, i) => { const d = new Date(base); d.setDate(base.getDate() - 6 + i); return d; });
+  const vals = days.map(d => {
+    const a = d.getTime(), b = new Date(d).setDate(d.getDate() + 1);
+    return S.ledger.filter(e => ['task_reward','reversal','daily_bonus','challenge_reward'].includes(e.type) && e.ts >= a && e.ts < b).reduce((sum, e) => sum + e.amount, 0);
+  });
+  const max = Math.max(1, ...vals.map(v=>Math.abs(v))), W = 420, H = 150, bw = 36, gap = (W - 7 * bw) / 7, wd = new Intl.DateTimeFormat(loc(), { weekday: 'short' }), baseline=78;
+  const bars = vals.map((v, i) => {
+    const h = Math.max(v===0?0:2,Math.round(Math.abs(v) / max * 48)), x = gap / 2 + i * (bw + gap), y=v>=0?baseline-h:baseline;
+    return `<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="7" fill="${v<0?'var(--red)':'url(#eg)'}"><title>${fmt(v)}</title></rect>
+      <text x="${x + bw / 2}" y="${H - 6}" text-anchor="middle" font-size="11" fill="currentColor" opacity=".7">${wd.format(days[i])}</text>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${T('weekly')}" style="color:var(--muted)">
+    <defs><linearGradient id="eg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--gold2)"/><stop offset="1" style="stop-color:var(--gold)"/></linearGradient></defs><line x1="0" y1="${baseline}" x2="${W}" y2="${baseline}" stroke="currentColor" opacity=".25"/>${bars}</svg>`;
+}
+// ---------- Milestones: fixed daily / weekly / monthly goals ----------
+const MILESTONES = [
+  {id:'tasks3',period:'day',metric:'tasks',target:3,reward:3000,xp:30},
+  {id:'earn50',period:'day',metric:'earned',target:5000,reward:1000,xp:20},
+  {id:'focus25',period:'day',metric:'focus',target:25,reward:800,xp:25},
+  {id:'tasks15',period:'week',metric:'tasks',target:15,reward:15000,xp:120},
+  {id:'focus180',period:'week',metric:'focus',target:180,reward:8000,xp:100},
+  {id:'earn500',period:'week',metric:'earned',target:50000,reward:12000,xp:150},
+  {id:'tasks60',period:'month',metric:'tasks',target:60,reward:60000,xp:400},
+  {id:'focus600',period:'month',metric:'focus',target:600,reward:40000,xp:300}
+];
+function milestoneBounds(period){
+  const a=new Date();a.setHours(0,0,0,0);
+  if(period==='week')a.setDate(a.getDate()-((a.getDay()+1)%7));
+  if(period==='month')a.setDate(1);
+  const b=new Date(a);if(period==='day')b.setDate(b.getDate()+1);else if(period==='week')b.setDate(b.getDate()+7);else b.setMonth(b.getMonth()+1);
+  return {a:a.getTime(),b:b.getTime(),key:ymd(a)};
+}
+function milestoneMetric(s,m,a,b){
+  if(m==='focus')return s.focus.filter(x=>x.ts>=a&&x.ts<b).reduce((n,x)=>n+x.min,0);
+  if(m==='earned')return s.ledger.filter(e=>['task_reward','reversal'].includes(e.type)&&e.ts>=a&&e.ts<b).reduce((n,e)=>n+e.amount,0);
+  let n=0;s.tasks.forEach(t=>{if(t.completedAt&&t.completedAt>=a&&t.completedAt<b)n++;(t.history||[]).forEach(h=>{const ts=h.ts||new Date(h.date+'T12:00:00').getTime();if(ts>=a&&ts<b)n++;});});return n;
+}
+function milestoneState(m,s=S){const b=milestoneBounds(m.period),key=m.id+'@'+b.key,progress=Math.max(0,milestoneMetric(s,m.metric,b.a,b.b));return {key,progress:Math.min(progress,m.target),ready:progress>=m.target&&!(s.claims||[]).includes(key),claimed:(s.claims||[]).includes(key)};}
+function claimMilestone(id){const m=MILESTONES.find(x=>x.id===id);if(!m)return null;return run(d=>{const st=milestoneState(m,d);if(st.claimed)fail('missionClaimed');if(!st.ready)fail('missionNotReady');post(d,'challenge_reward',m.reward,'Milestone: '+id,st.key);d.lifetime+=m.reward;d.xp+=m.xp;petGain(d,8);d.claims??=[];d.claims.push(st.key);return {id};});}
+function milestonesView(){const rows=MILESTONES.map(m=>{const st=milestoneState(m),pct=Math.round(st.progress/m.target*100),value=m.metric==='earned'?`${fmt(st.progress)} / ${fmt(m.target)}`:`${st.progress} / ${m.target}`;const action=st.claimed?`<span class="tag pos">✓ ${T('missions.claimed')}</span>`:st.ready?`<button class="primary" data-act="milestone-claim" data-id="${m.id}">${T('missions.claim')} · ${fmt(m.reward)}</button>`:`<span class="muted">${T('missions.notReady')}</span>`;return `<div class="row"><div style="flex:1 1 240px"><b>${T('missions.'+m.id)}</b> <span class="tag">${T('missions.'+m.period)}</span><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div><div class="muted">${T('missions.progress')}: ${value} · ${m.xp} ${T('missions.xp')}</div></div><div class="actions">${action}</div></div>`;}).join('');return `<section class="card"><h3>🎯 ${T('missions.title')}</h3><p class="muted">${T('missions.hint')}</p>${rows}</section>`;}
+function milestoneMini(){const all=MILESTONES.map(m=>({m,s:milestoneState(m)})),ready=all.filter(x=>x.s.ready).length,done=all.filter(x=>x.s.claimed).length;return `<section class="card"><div class="row"><div><h3>🎯 ${T('missions.title')}</h3><p class="muted">${ready?`${ready} ${ui.lang==='ar'?'مكافآت جاهزة للاستلام':'rewards ready to claim'}`:`${done}/8 ${ui.lang==='ar'?'تم استلامها في الفترات الحالية':'claimed in current periods'}`}</p></div><button data-act="tab" data-tab="missions">${ui.lang==='ar'?'عرض المهام الكبرى':'View milestones'}</button></div></section>`;}
+
+const VIEWS = {
+  dashboard() {
+    const s = stats(), lv = levelOf(S.xp), cur = xpForLevel(lv), nxt = xpForLevel(lv + 1);
+    const pct = lv >= 50 ? 100 : Math.round((S.xp - cur) / (nxt - cur) * 100);
+    const recent = S.ledger.slice(0, 5).map(ledgerLine).join('') || `<p class="muted">${T('none')}</p>`;
+    const upcoming = S.tasks.filter(t => t.status === 'pending')
+      .sort((a, b) => (a.due || '9999').localeCompare(b.due || '9999')).slice(0, 5)
+      .map(t => `<div class="row"><span>${esc(t.title)}</span><span class="muted">${esc(t.due) || '—'}</span></div>`).join('')
+      || `<p class="muted">${T('none')}</p>`;
+    const badges = ACH.map(a => `<div class="badge r-${a.r} ${S.achievements.includes(a.id) ? '' : 'off'}" title="${esc(T('ach.' + a.id + '.d'))}">
+      <b>${esc(T('ach.' + a.id + '.n'))}</b><span class="muted">${T('rarity.' + a.r)}</span></div>`).join('');
+    return `
+    ${dailyBonusCard()}
+    ${petDashboardCard()}
+    ${milestoneMini()}
+    <div class="grid">
+      ${stat(T('balance'), fmt(S.balance), 'pos')}${stat(T('todayEarn'), fmt(s.todayEarn))}${stat(T('lifetime'), fmt(S.lifetime))}
+      ${stat(T('saved'), fmt(S.savings))}${stat(T('spending'), fmt(S.spending))}${stat(T('completion'), s.pct === null ? '—' : s.pct + '%')}
+    </div>
+    <div class="grid" style="margin-top:14px">
+      ${stat(T('done'), s.done)}${stat(T('pending'), s.pending)}${stat(T('overdue'), s.overdue, s.overdue ? 'neg' : '')}
+      ${stat(T('streak'), '🔥 ' + streakOf(S) + ' ' + T('days'))}
+    </div>
+    <div class="grid two" style="margin-top:14px">
+      <section class="card"><h3>${T('level')} ${lv} · ${titleOf(lv)}</h3>
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div>
+        <p class="muted">${S.xp} ${T('xp')}${lv >= 50 ? ` · ${T('maxLevel')}` : ` · ${nxt - S.xp} ${T('xp')} ${T('nextLevel')}`}</p></section>
+      <section class="card"><h3>${T('weekly')}</h3>${weekChart()}</section>
+    </div>
+    <div class="grid two" style="margin-top:14px">
+      <section class="card"><h3>${T('recent')}</h3>${recent}</section>
+      <section class="card"><h3>${T('upcoming')}</h3>${upcoming}</section>
+    </div>
+    <section class="card"><h3>${T('achievements')} · ${S.achievements.length}/${ACH.length}</h3><div class="badges">${badges}</div></section>
+    <section class="card"><h3>${T('quick')}</h3><div class="actions">
+      <button class="primary" type="button" data-act="tab" data-tab="tasks">+ ${T('nav.tasks')}</button>
+      <button type="button" data-act="tab" data-tab="shop">${T('nav.shop')}</button>
+      <button type="button" data-act="tab" data-tab="savings">${T('nav.savings')}</button>
+      <button type="button" data-act="tab" data-tab="wallet">${T('nav.wallet')}</button><button type="button" data-act="tab" data-tab="pets">🐾 ${T('nav.pets')}</button>
+    </div><p class="muted" style="margin:10px 0 0">${T('shortcuts')}</p></section>`;
+  },
+
+  tasks() {
+    const filters = Object.keys(FILTERS).map(k => `<button type="button" data-act="filter" data-f="${k}" ${ui.filter === k ? 'aria-current="true"' : ''}>${T(FILTERS[k])}</button>`).join('');
+    const sorts = [['due', 'sortDue'], ['reward', 'sortReward'], ['title', 'sortTitle']].map(([v, k]) => `<option value="${v}" ${ui.sort === v ? 'selected' : ''}>${T(k)}</option>`).join('');
+    return `
+    <section class="card"><form data-form="task">
+      <label style="flex:2 1 220px">${T('title')}<input name="title" required maxlength="200" style="width:100%"></label>
+      <label>${T('difficulty')}<select name="difficulty">${Object.keys(DIFF).map(k => `<option value="${k}">${T(k)}</option>`).join('')}</select></label>
+      <label>${T('repeat')}<select name="freq">${['none', 'daily', 'weekly', 'monthly'].map(k => `<option value="${k}">${T('freq.' + k)}</option>`).join('')}</select></label>
+      <label>${T('reward')}<input name="reward" inputmode="decimal" value="${mid('easy')}" style="width:120px"></label>
+      <label>${T('due')}<input type="date" name="due"></label>
+      <button class="primary" type="submit">${T('add')}</button>
+    </form></section>
+    <section class="card">
+      <div class="actions" style="margin-bottom:10px">
+        <input type="search" id="q" value="${esc(ui.q)}" placeholder="${T('search')}" aria-label="${T('search')}" style="flex:1 1 200px">
+        <select id="sort" aria-label="${T('sort')}">${sorts}</select>
+      </div>
+      <div class="actions" style="margin-bottom:6px">${filters}</div>
+      <div id="tlist">${taskList()}</div>
+    </section>`;
+  },
+
+  focus() {
+    const left = leftNow(), day0 = startOfToday();
+    const mins = S.focus.filter(f => f.ts >= day0).reduce((a, f) => a + f.min, 0);
+    const opts = S.tasks.filter(t => t.status === 'pending').map(t => `<option value="${t.id}" ${FOCUS.tid === t.id ? 'selected' : ''}>${esc(t.title)}</option>`).join('');
+    const hist = S.focus.slice(0, 6).map(f => `<div class="row"><span>${fmtDate(f.ts)}</span><span class="muted">${f.min} ${T('minutes')}${f.tid ? ' · ' + esc(taskTitle(f.tid)) : ''}</span></div>`).join('') || `<p class="muted">${T('none')}</p>`;
+    return `
+    <section class="card focus">
+      <h3 style="text-align:center">${T('focusHeading')}</h3>
+      <div class="timer" id="ftime">${fmtClock(left)}</div>
+      <p class="muted" style="text-align:center;margin:0">${T('focusHint')}</p>
+      <div class="actions" style="justify-content:center">
+        <select id="flen" aria-label="${T('duration')}" ${FOCUS.timer ? 'disabled' : ''}>${[15, 25, 45, 60].map(n => `<option value="${n}" ${FOCUS.len === n ? 'selected' : ''}>${n} ${T('minutes')}</option>`).join('')}</select>
+        <select id="ftask" aria-label="${T('linkTask')}"><option value="">${T('noTask')}</option>${opts}</select>
+      </div>
+      <div class="actions" style="justify-content:center">
+        <button class="primary" type="button" data-act="fstart">${FOCUS.timer ? T('pause') : T('start')}</button>
+        <button type="button" data-act="freset">${T('reset')}</button>
+      </div>
+      <p class="muted" style="text-align:center;margin:0">${T('todayFocus')}: ${mins} ${T('minutes')}</p>
+    </section>
+    <section class="card"><h3>${T('sessions')}</h3>${hist}</section>`;
+  },
+
+  shop() {
+    const cards = S.rewards.filter(r => !r.archived).map(r => {
+      const can = S.balance >= r.price;
+      return `<section class="card"><b>${esc(r.name)}</b><div class="muted">${T('cats.' + r.category)}</div>
+        <div class="row" style="border:0;padding:8px 0 0"><b>${fmt(r.price)}</b>
+        <div class="actions"><button class="primary" type="button" data-act="buy" data-id="${r.id}" ${can ? '' : 'disabled'}>${T('buy')}</button>
+        <button class="danger" type="button" data-act="archreward" data-id="${r.id}">${T('archive')}</button></div></div>
+        ${can ? '' : `<p class="neg" style="margin:6px 0 0;font-size:.85rem">${T('err.insufficient')}</p>`}</section>`;
+    }).join('');
+    const hist = S.purchases.map(p => `<div class="row"><div><b>${esc(p.name)}</b><div class="muted">${fmtDate(p.ts)}</div></div>
+      <div class="actions"><span class="tag">${p.status === 'redeemed' ? T('statusRedeemed') : p.status === 'refunded' ? T('statusRefunded') : T('purchased')}</span>
+      ${p.status === 'purchased' ? `<button type="button" data-act="redeem" data-id="${p.id}">${T('redeem')}</button>` : ''}</div></div>`).join('');
+    return `
+    <section class="card"><h3>${T('newReward')}</h3><form data-form="reward">
+      <label>${T('rewardName')}<input name="name" required maxlength="120"></label>
+      <label>${T('category')}<select name="category">${CATS.map(c => `<option value="${c}">${T('cats.' + c)}</option>`).join('')}</select></label>
+      <label>${T('price')}<input name="price" inputmode="decimal" required style="width:120px"></label>
+      <button class="primary" type="submit">${T('add')}</button>
+    </form></section>
+    <section class="grid" style="margin-top:14px">${cards || `<p class="muted">${T('noRewards')}</p>`}</section>
+    ${cosSection()}${petShopSection()}<section class="card"><h3>${T('purchases')}</h3>${hist || `<p class="muted">${T('none')}</p>`}</section>`;
+  },
+
+  savings() {
+    const goals = S.goals.map(g => {
+      const pct = Math.min(100, Math.round(g.saved / g.target * 100));
+      return `<section class="card goal"><div class="row" style="border:0;padding:0"><b>${esc(g.name)}</b>
+        <span class="tag ${g.status === 'completed' ? 'pos' : ''}">${g.status === 'completed' ? T('goalDone') : pct + '%'}</span></div>
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div>
+        <p class="muted">${fmt(g.saved)} / ${fmt(g.target)}${g.date ? ' · ' + esc(g.date) : ''}</p>
+        <div class="actions"><input inputmode="decimal" placeholder="${T('amount')}" aria-label="${T('amount')}" style="width:130px">
+          <button class="primary" type="button" data-act="dep" data-id="${g.id}" ${g.status === 'active' ? '' : 'disabled'}>${T('deposit')}</button>
+          <button type="button" data-act="wd" data-id="${g.id}">${T('withdraw')}</button></div></section>`;
+    }).join('');
+    return `
+    <section class="card"><h3>${T('newGoal')}</h3><form data-form="goal">
+      <label>${T('goal')}<input name="name" required maxlength="120"></label>
+      <label>${T('target')}<input name="target" inputmode="decimal" required style="width:150px"></label>
+      <label>${T('targetDate')}<input type="date" name="date"></label>
+      <button class="primary" type="submit">${T('add')}</button>
+    </form></section>
+    <div class="grid" style="margin-top:14px">${goals || `<p class="muted">${T('noGoals')}</p>`}</div>`;
+  },
+
+  wallet() {
+    const rows = S.ledger.slice(0, 200).map(e => `<tr><td>${fmtDate(e.ts)}</td><td>${T('ltype.' + e.type)}</td><td>${esc(e.desc)}</td>
+      <td class="${e.amount > 0 ? 'pos' : 'neg'}">${sign(e.amount)}</td><td>${fmt(e.after)}</td></tr>`).join('');
+    return `
+    <section class="card"><div class="row" style="border:0">
+      <div><span class="muted">${T('balance')}</span><h3 style="font-size:1.6rem;margin:4px 0">${fmt(S.balance)}</h3></div>
+      <div class="actions"><button type="button" data-act="export">${T('exportData')}</button> <button type="button" data-act="import">استيراد نسخة</button> <input type="file" id="importFile" accept="application/json,.json" hidden> <button type="button" data-act="csv">${T('exportCsv')}</button>
+      <button class="danger" type="button" data-act="reset">${T('resetData')}</button></div></div></section>
+    <section class="card" style="overflow:auto">${S.ledger.length
+      ? `<table><thead><tr><th>${T('date')}</th><th>${T('type')}</th><th>${T('desc')}</th><th>${T('amountCol')}</th><th>${T('after')}</th></tr></thead><tbody>${rows}</tbody></table>`
+      : `<p class="muted">${T('noLedger')}</p>`}</section>`;
+  },
+};
+
+
+
+function claimDailyBonus(){return done(d=>{d.dailyBonus??={lastDate:'',streak:0};const day=today();if(d.dailyBonus.lastDate===day)fail('bonusClaimed');const prev=dateShift(day,-1);d.dailyBonus.streak=d.dailyBonus.lastDate===prev?Math.min(7,(d.dailyBonus.streak||0)+1):1;const reward=100+(d.dailyBonus.streak-1)*25;post(d,'daily_bonus',reward,'مكافأة الدخول اليومية',day);d.lifetime+=reward;d.xp+=10;petGain(d,3);d.dailyBonus.lastDate=day;d.dailyBonus.lastReward=reward;},'bonusReceived');}
+function petDashboardCard(){const p=petById(S.pets?.active),lv=petLevel(S.pets?.xp||0);if(!p)return `<section class="card"><div class="row" style="border:0;padding:0"><span>🐾 لسه معندكش رفيق؟</span><button data-act="tab" data-tab="shop">اكتشف الحيوانات</button></div></section>`;return `<section class="card"><div class="row" style="border:0;padding:0"><div class="actions"><span style="font-size:2.4rem" class="pet-emoji">${p.stages[lv-1]}</span><div><b>رفيقك: ${p.name}</b><div class="muted">المستوى ${lv}/4 · ${S.pets.xp} XP</div></div></div><button data-act="tab" data-tab="pets">الاعتناء بالرفيق</button></div></section>`;}
+function dailyBonusCard(){const b=S.dailyBonus||{lastDate:'',streak:0};const claimed=b.lastDate===today();const next=100+Math.min(6,b.lastDate===dateShift(today(),-1)?(b.streak||0):0)*25;return `<section class="card"><div class="row" style="border:0;padding:0"><div><h3>🎁 ${T('dailyBonus')}</h3><p class="muted">${T('bonusHint')}</p><span class="tag">🔥 ${T('bonusStreak')}: ${b.streak||0}/7</span></div><div style="text-align:center"><b class="pos">${fmt(claimed?(b.lastReward||next):next)}</b><div class="muted">${claimed?'تم الاستلام اليوم':'المكافأة التالية'}</div></div></div><button class="primary" type="button" data-act="daily-bonus" ${claimed?'disabled':''}>${claimed?'✓ '+T('bonusClaimed'):T('claimBonus')}</button></section>`;}
+
+// ---------- Expanded local-first features (habits, challenges, calendar, profile, analytics) ----------
+const AVATARS = ['🧑‍🚀','🦊','🐼','🐯','🐸','🐙','🦉','🐉','🤖','🧙'];
+const METRICS = ['tasks','focus','habits'];
+const metricValue = (d, metric) => metric === 'tasks' ? doneCount(d) : metric === 'focus' ? d.focus.reduce((n,x)=>n+(x.min||0),0) : d.habits.reduce((n,h)=>n+(h.logs||[]).length,0);
+function challengeWindow(period){const d=new Date();d.setHours(0,0,0,0);if(period==='daily')return {start:d.getTime(),key:'daily:'+ymd(d)};if(period==='monthly'){d.setDate(1);return {start:d.getTime(),key:'monthly:'+ymd(d).slice(0,7)};}d.setDate(d.getDate()-((d.getDay()+6)%7));return {start:d.getTime(),key:'weekly:'+ymd(d)};}
+function challengeProgress(d,c){const w=challengeWindow(c.period||'weekly');if(c.metric==='tasks')return d.tasks.reduce((n,t)=>n+(t.status==='completed'&&t.completedAt>=w.start?1:0)+(t.history||[]).filter(h=>(h.ts||new Date(h.date+'T12:00:00').getTime())>=w.start).length,0);if(c.metric==='focus')return d.focus.filter(x=>x.ts>=w.start).reduce((n,x)=>n+(x.min||0),0);return d.habits.reduce((n,h)=>n+(h.logs||[]).filter(day=>new Date(day+'T12:00:00').getTime()>=w.start).length,0);}
+function addHabit(f) { return done(d=>{ const name=(f.name||'').trim(); if(!name||name.length>80) fail('invalid'); d.habits.unshift({id:uid(),name,createdAt:Date.now(),logs:[]}); },'extra.habitAdded'); }
+function toggleHabit(id) { return done(d=>{ const h=d.habits.find(x=>x.id===id); if(!h) fail('notfound'); h.logs??=[]; if(h.logs.includes(today())) fail('already'); h.logs.push(today()); d.xp+=5; petGain(d, 3); }); }
+function deleteHabit(id) { return done(d=>{const i=d.habits.findIndex(x=>x.id===id);if(i<0)fail('notfound');d.habits.splice(i,1);}); }
+function addChallenge(f) { return done(d=>{ const name=(f.name||'').trim(),target=Math.floor(Number(f.target)),reward=toP(f.reward),metric=f.metric; if(!name||name.length>100||!Number.isInteger(target)||target<1||target>100000||reward===null||reward<1||reward>10000000||!METRICS.includes(metric)) fail('badTarget'); const period=['daily','weekly','monthly'].includes(f.period)?f.period:'weekly'; if(!validDate(f.dueDate))fail('badTarget'); d.challenges.unshift({id:uid(),name,target,reward,metric,period,dueDate:f.dueDate||'',baseline:metricValue(d,metric),createdAt:Date.now(),claimed:false}); },'extra.challengeAdded'); }
+function claimChallenge(id) { return done(d=>{const c=d.challenges.find(x=>x.id===id);if(!c)fail('notfound');c.claimedPeriods??=[];const key=challengeWindow(c.period||'weekly').key;if(c.claimedPeriods.includes(key))fail('claimed');if(c.dueDate && c.dueDate < today())fail('badTarget');if(challengeProgress(d,c)<c.target)fail('badTarget');post(d,'challenge_reward',c.reward,c.name,c.id+':'+key);d.lifetime+=c.reward;petGain(d,10);c.claimedPeriods.push(key);c.claimed=true;},'extra.claimed'); }
+function saveProfile(f) { return done(d=>{const name=(f.name||'').trim(),bio=(f.bio||'').trim(),avatar=f.avatar,frame=f.frame||d.profile.frame||'rare';const premiumAvatar=COS.some(it=>it.kind==='avatar'&&it.value===avatar&&d.cos.owned.includes(it.id));const premiumFrame=COS.some(it=>it.kind==='frame'&&it.id===frame&&d.cos.owned.includes(it.id));if(!name||name.length>40||bio.length>180||(!AVATARS.includes(avatar)&&!premiumAvatar)||(!['rare','epic','legendary'].includes(frame)&&!premiumFrame))fail('invalid');d.profile={...d.profile,name,bio,avatar,photo:f.photoData||d.profile.photo||'',frame};d.cos.eq.frame=frame;const avItem=COS.find(it=>it.kind==='avatar'&&it.value===avatar&&d.cos.owned.includes(it.id));d.cos.eq.avatar=avItem?avItem.id:'';},'extra.profileSaved'); }
+function addFriend(f) { return done(d=>{const name=(f.name||'').trim();if(!name||name.length>40)fail('invalid');if(d.friends.some(x=>x.name.toLowerCase()===name.toLowerCase()))fail('invalid');d.friends.push({id:uid(),name,addedAt:Date.now()});},'extra.friendAdded'); }
+function removeFriend(id) { return done(d=>{d.friends=d.friends.filter(x=>x.id!==id);}); }
+function createAuction(f) { return done(d=>{const name=(f.name||'').trim(),price=toP(f.price);if(!name||name.length>100||price===null||price<1||!validDate(f.date)||!f.date||f.date<today())fail('invalid');d.auctions.unshift({id:uid(),name,price,date:f.date,createdAt:Date.now(),status:'open'});},'extra.auctionAdded'); }
+function deleteAuction(id) { return done(d=>{d.auctions=d.auctions.filter(x=>x.id!==id);}); }
+function habitStreak(h) { const set=new Set(h.logs||[]);let d=new Date(),n=0;if(!set.has(ymd(d)))d.setDate(d.getDate()-1);while(set.has(ymd(d))){n++;d.setDate(d.getDate()-1);}return n; }
+function localAssistantReply(q) { const s=stats(),text=q.toLowerCase(); if(/رصيد|فلوس|محفظ|balance|money/.test(text)) return `${T('balance')}: ${fmt(S.balance)}. ${T('saved')}: ${fmt(S.savings)}. ${T('lifetime')}: ${fmt(S.lifetime)}.`; if(/مهمة|مهام|task/.test(text)) return `${T('done')}: ${s.done} · ${T('pending')}: ${s.pending} · ${T('overdue')}: ${s.overdue}. ${s.overdue?'ابدأ بمهمة متأخرة صغيرة لتستعيد الزخم.':'اختار مهمة واحدة مهمة وابدأ بها الآن.'}`; if(/تركيز|focus|وقت/.test(text)) {const mins=S.focus.reduce((a,x)=>a+x.min,0);return `${T('focusHours')}: ${(mins/60).toFixed(1)}. جرّب جلسة تركيز 25 دقيقة مع إبعاد المشتتات.`;} if(/حيوان|حيوانات|رفيق|pet/.test(text)){const p=petById(S.pets?.active);return p?`رفيقك ${p.name} في المستوى ${petLevel(S.pets.xp)}، والترابط بينكما ${S.pets.bond}/100. أكمل المهام وجلسات التركيز ليكبر ويتطور.`:'لسه ما عندكش حيوان أليف. افتح المتجر واختار رفيقك الأول.';} if(/عادة|hab/.test(text)) return `عندك ${S.habits.length} عادة. ابدأ بعادة واحدة صغيرة وثبّت وقتها يومياً.`; if(/تحد|challenge/.test(text)) return `عندك ${S.challenges.length} تحديات. راجع التقدم، واستلم مكافأة أي تحدٍ وصلت لهدفه.`; return `اقتراحي: اختار مهمة واحدة مدتها أقل من 30 دقيقة، نفذها، وبعدها خذ استراحة قصيرة. تقدم صغير كل يوم أفضل من خطة ضخمة لا تبدأ.`; }
+function assistantView() { return `<section class="card"><h3>✨ ${T('extra.assistant')}</h3><p class="muted">${T('extra.assistantIntro')}</p><div id="chatlog" style="display:grid;gap:8px;max-height:340px;overflow:auto;margin:12px 0"><div class="row"><span>${T('extra.suggestion')}: راجع مهامك المتأخرة وحدد مهمة واحدة تبدأ بها.</span></div></div><form data-form="assistant"><label style="flex:1 1 220px">${T('extra.ask')}<input name="q" required maxlength="300" style="width:100%"></label><button class="primary">${T('extra.send')}</button></form></section>`; }
+function habitsView() { const rows=S.habits.map(h=>{const doneToday=(h.logs||[]).includes(today());return `<div class="row"><div><b>${esc(h.name)}</b><div class="muted">🔥 ${habitStreak(h)} ${T('extra.habitStreak')} · ${(h.logs||[]).length} ${T('extra.habitCompletions')}</div></div><div class="actions"><button class="${doneToday?'':'primary'}" data-act="habit-toggle" data-id="${h.id}" ${doneToday?'disabled':''}>${doneToday?'✓ '+T('done'):T('extra.markToday')}</button><button class="danger" data-act="habit-delete" data-id="${h.id}">${T('extra.remove')}</button></div></div>`}).join('');return `<section class="card"><h3>${T('extra.habits')}</h3><form data-form="habit"><label style="flex:1 1 200px">${T('extra.habitName')}<input name="name" maxlength="80" required></label><button class="primary">${T('add')}</button></form></section><section class="card">${rows||`<p class="muted">${T('extra.noHabits')}</p>`}</section>`; }
+function challengesView() { const rows=S.challenges.map(c=>{const n=challengeProgress(S,c),pct=Math.min(100,Math.round(n/c.target*100)),key=challengeWindow(c.period||'weekly').key,claimed=(c.claimedPeriods||[]).includes(key);return `<section class="card"><div class="row"><b>${esc(c.name)}</b><span class="tag">${fmt(c.reward)}</span></div><div class="muted">${c.period==='daily'?'يومي':c.period==='monthly'?'شهري':'أسبوعي'} · ${T('extra.'+c.metric+'Metric')} · ${n}/${c.target}</div><div class="bar"><i style="width:${pct}%"></i></div>${claimed?`<span class="tag pos">✓ ${T('extra.claimed')}</span>`:`<button class="primary" data-act="challenge-claim" data-id="${c.id}" ${n>=c.target?'':'disabled'}>${T('extra.claim')}</button>`}${c.dueDate?`<p class="muted">آخر موعد: ${esc(c.dueDate)}</p>`:''}</section>`}).join('');return `<section class="card"><h3>${T('extra.challenges')}</h3><form data-form="challenge"><label style="flex:1 1 180px">${T('extra.challengeName')}<input name="name" maxlength="100" required></label><label>${T('extra.metric')}<select name="metric"><option value="tasks">${T('extra.tasksMetric')}</option><option value="focus">${T('extra.focusMetric')}</option><option value="habits">${T('extra.habitsMetric')}</option></select></label><label>${T('extra.target')}<input name="target" type="number" min="1" max="100000" required></label><label>${T('extra.prize')}<input name="reward" inputmode="decimal" required></label><label>الفترة<select name="period"><option value="daily">يومي</option><option value="weekly" selected>أسبوعي</option><option value="monthly">شهري</option></select></label><label>آخر موعد<input name="dueDate" type="date"></label><button class="primary">${T('add')}</button></form></section>${rows||`<section class="card muted">${T('extra.noChallenges')}</section>`}`; }
+function dateShift(iso,n){const d=new Date(iso+'T12:00:00');d.setDate(d.getDate()+n);return ymd(d)}
+function monthShift(iso,n){const d=new Date(iso+'T12:00:00');d.setDate(1);d.setMonth(d.getMonth()+n);return ymd(d)}
+function weekStart(iso){const d=new Date(iso+'T12:00:00');d.setDate(d.getDate()-((d.getDay()+6)%7));return ymd(d)}
+function calendarEvents(){const a=S.tasks.filter(t=>t.due).map(t=>({date:t.due,title:t.title,icon:t.status==='completed'?'✅':'📌',kind:'task'}));S.tasks.forEach(t=>(t.history||[]).forEach(h=>a.push({date:h.date,title:t.title,icon:'✅',kind:'completed'})));S.tasks.filter(t=>t.status==='completed'&&t.completedAt).forEach(t=>a.push({date:ymd(new Date(t.completedAt)),title:t.title,icon:'✅',kind:'completed'}));S.goals.filter(g=>g.date).forEach(g=>a.push({date:g.date,title:g.name,icon:'🎯',kind:'goal'}));S.challenges.filter(c=>c.dueDate).forEach(c=>a.push({date:c.dueDate,title:c.name,icon:'🏆',kind:'challenge'}));S.habits.forEach(h=>(h.logs||[]).forEach(day=>a.push({date:day,title:h.name,icon:'🔁',kind:'habit'})));S.habits.filter(h=>!(h.logs||[]).length).forEach(h=>a.push({date:today(),title:h.name,icon:'🔁',kind:'habit'}));return a;}
+function calendarView(){const anchor=ui.calDate||today(),events=calendarEvents(),d=new Date(anchor+'T12:00:00');let title='',body='';const dayNames=ui.lang==='ar'?['الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت','الأحد']:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const listFor=date=>events.filter(x=>x.date===date).map(x=>`<span class="cal-event" title="${esc(x.title)}">${x.icon} ${esc(x.title)}</span>`).join('');
+if(ui.calMode==='day'){title=new Intl.DateTimeFormat(loc(),{dateStyle:'full'}).format(d);body=`<div><h3>${esc(title)}</h3>${events.filter(x=>x.date===anchor).map(x=>`<div class="row"><span>${x.icon} ${esc(x.title)}</span><span class="tag">${x.kind}</span></div>`).join('')||'<p class="muted">لا توجد أحداث في هذا اليوم.</p>'}</div>`;}
+else if(ui.calMode==='week'){const start=weekStart(anchor);const days=Array.from({length:7},(_,i)=>dateShift(start,i));const end=days[6];title=`${start} — ${end}`;body=`<div class="cal-week">${days.map((date,i)=>`<div class="cal-day ${date===today()?'today':''}"><b>${dayNames[i]}<br>${date.slice(8)}</b>${listFor(date)}</div>`).join('')}</div>`;}
+else{const first=new Date(d.getFullYear(),d.getMonth(),1,12),offset=(first.getDay()+6)%7,start=new Date(first);start.setDate(first.getDate()-offset);const days=Array.from({length:42},(_,i)=>{const x=new Date(start);x.setDate(start.getDate()+i);return ymd(x)});title=new Intl.DateTimeFormat(loc(),{month:'long',year:'numeric'}).format(d);body=`<div class="cal-grid">${dayNames.map(n=>`<div class="muted" style="text-align:center;font-size:.75rem">${n}</div>`).join('')}${days.map(date=>`<div class="cal-cell ${date===today()?'today':''} ${date.slice(0,7)!==anchor.slice(0,7)?'out':''}"><b>${Number(date.slice(8))}</b>${listFor(date)}</div>`).join('')}</div>`;}
+return `<section class="card"><h3>🗓️ التقويم</h3><div class="cal-toolbar"><button data-act="cal-prev">‹</button><button data-act="cal-today">اليوم</button><button data-act="cal-next">›</button><span class="spacer"></span><b>${esc(title)}</b></div><div class="actions" style="margin:12px 0"><button data-act="cal-mode" data-mode="day" class="${ui.calMode==='day'?'primary':''}">يومي</button><button data-act="cal-mode" data-mode="week" class="${ui.calMode==='week'?'primary':''}">أسبوعي</button><button data-act="cal-mode" data-mode="month" class="${ui.calMode==='month'?'primary':''}">شهري</button></div>${body}</section>`;}
+function rangeStart(range){if(range==='all')return 0;const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-Number(range)+1);return d.getTime();}
+function analyticsView(){const from=rangeStart(ui.analyticsRange),ledger=S.ledger.filter(e=>e.ts>=from),earned=ledger.filter(e=>e.amount>0).reduce((a,e)=>a+e.amount,0),spent=-ledger.filter(e=>e.amount<0).reduce((a,e)=>a+e.amount,0),focus=S.focus.filter(x=>x.ts>=from),mins=focus.reduce((a,x)=>a+x.min,0),habits=S.habits.reduce((a,h)=>a+(h.logs||[]).filter(day=>new Date(day+'T12:00:00').getTime()>=from).length,0),tasks=S.tasks.reduce((a,t)=>a+(t.history||[]).filter(h=>new Date(h.date+'T12:00:00').getTime()>=from).length+(t.status==='completed'&&t.completedAt>=from?1:0),0);
+const groups={};ledger.forEach(e=>{let k='أخرى';if(['task_reward','reversal'].includes(e.type)){const task=S.tasks.find(t=>t.id===e.ref);k=task?('المهام · '+T(task.difficulty)):'المهام';}else if(e.type==='shop_purchase'){k=e.category&&STR.ar.cats[e.category]?STR.ar.cats[e.category]:'المتجر';}else if(['savings_deposit','savings_withdrawal'].includes(e.type))k='الادخار';else if(e.type==='challenge_reward')k='التحديات';else if(e.type==='daily_bonus')k='مكافآت الدخول';else if(e.type==='pet_feed')k='الحيوانات الأليفة';groups[k]=(groups[k]||0)+Math.abs(e.amount)});const max=Math.max(1,...Object.values(groups));const chart=Object.entries(groups).map(([k,v])=>`<div class="chart-col"><div class="chart-bar" style="height:${Math.max(4,Math.round(v/max*130))}px" title="${fmt(v)}"></div><small>${esc(k)}</small><small>${fmt(v)}</small></div>`).join('')||'<p class="muted">لا توجد معاملات في الفترة المحددة.</p>';
+const hourly=ui.analyticsRange==='1'?Array.from({length:24},(_,h)=>{const a=new Date();a.setHours(h,0,0,0);const b=new Date(a);b.setHours(h+1);const v=ledger.filter(e=>['task_reward','reversal','daily_bonus','challenge_reward'].includes(e.type)&&e.ts>=a.getTime()&&e.ts<b.getTime()).reduce((n,e)=>n+e.amount,0);return {h,v};}):[];const hourlyMax=Math.max(1,...hourly.map(x=>Math.abs(x.v)));const hourlyHtml=hourly.length?`<h3 style="margin-top:18px">${ui.lang==='ar'?'الأرباح حسب ساعة اليوم':'Earnings by hour today'}</h3><div class="chart-bars">${hourly.map(x=>`<div class="chart-col"><div class="chart-bar" style="height:${Math.max(x.v?3:0,Math.round(Math.abs(x.v)/hourlyMax*130))}px" title="${fmt(x.v)}"></div><small>${String(x.h).padStart(2,'0')}:00</small></div>`).join('')}</div>`:'';
+return `<section class="card"><h3>📊 تحليلات الأداء</h3><div class="filter-toolbar"><label>الفترة<select id="analyticsRange"><option value="1" ${ui.analyticsRange==='1'?'selected':''}>اليوم · 24 ساعة</option><option value="7" ${ui.analyticsRange==='7'?'selected':''}>آخر 7 أيام</option><option value="30" ${ui.analyticsRange==='30'?'selected':''}>آخر 30 يومًا</option><option value="90" ${ui.analyticsRange==='90'?'selected':''}>آخر 90 يومًا</option><option value="365" ${ui.analyticsRange==='365'?'selected':''}>آخر سنة</option><option value="all" ${ui.analyticsRange==='all'?'selected':''}>كل الوقت</option></select></label></div>${hourlyHtml}<div class="grid">${stat('المهام المنجزة',tasks)}${stat('ساعات التركيز',(mins/60).toFixed(1))}${stat('إنجازات العادات',habits)}${stat('صافي العملة',fmt(earned-spent))}</div><h3 style="margin-top:18px">حركة العملة حسب الفئة</h3><div class="chart-bars">${chart}</div><div class="grid" style="margin-top:14px">${stat('إجمالي الإضافات',fmt(earned),'pos')}${stat('إجمالي الخصومات',fmt(spent),'neg')}${stat('المدخرات الحالية',fmt(S.savings))}${stat('الرصيد الحالي',fmt(S.balance))}</div><p class="muted">البيانات محلية وتخص الملف الشخصي على هذا الجهاز.</p></section>`;}
+function reportSummary(period){const start=new Date();start.setHours(0,0,0,0);if(period==='week')start.setDate(start.getDate()-((start.getDay()+6)%7));else if(period==='month')start.setDate(1);else start.setDate(start.getDate()-Math.max(0,Number(period)||0));const from=start.getTime(),tx=S.ledger.filter(e=>e.ts>=from),earned=tx.filter(e=>['task_reward','daily_bonus','challenge_reward'].includes(e.type)).reduce((a,e)=>a+e.amount,0),spent=-tx.filter(e=>e.amount<0).reduce((a,e)=>a+e.amount,0),focus=S.focus.filter(x=>x.ts>=from).reduce((a,x)=>a+x.min,0),tasks=S.tasks.reduce((a,t)=>a+(t.history||[]).filter(h=>(h.ts||new Date(h.date+'T12:00:00').getTime())>=from).length+(t.status==='completed'&&t.completedAt>=from?1:0),0),habits=S.habits.reduce((a,h)=>a+(h.logs||[]).filter(day=>new Date(day+'T12:00:00').getTime()>=from).length,0);return {earned,spent,focus,tasks,habits,from};}
+function profileView(){const p=S.profile,rw=reportSummary('week'),rm=reportSummary('month'),pic=p.photo?`<img src="${p.photo}" alt="صورة الحساب">`:`<span class="avatar-emoji">${esc(p.avatar)}</span>`,frame=p.frame||'rare',frameClass='frame-'+String(frame).replace(/^fr_/,'').replace(/[^a-z0-9_-]/gi,''),ownedFrames=COS.filter(it=>it.kind==='frame'&&S.cos.owned.includes(it.id)),ownedAvatars=COS.filter(it=>it.kind==='avatar'&&S.cos.owned.includes(it.id)),avatarOptions=[...AVATARS,...ownedAvatars.map(x=>x.value)].map(a=>`<option ${a===p.avatar?'selected':''}>${a}</option>`).join(''),frameOptions=[['rare','أزرق متحرك'],['epic','بنفسجي متحرك'],['legendary','ذهبي أسطوري'],...ownedFrames.map(x=>[x.id,T('cos.'+x.id)])].map(([v,n])=>`<option value="${v}" ${frame===v?'selected':''}>${esc(n)}</option>`).join(''),title=cosById(S.cos.eq.title);return `<section class="card"><div class="profile-head"><div class="avatar-wrap ${esc(frameClass)}">${pic}</div><div><h2 style="margin:0">${esc(p.name||'EARN IT Player')}</h2><p class="muted">${esc(p.bio||'رحلتك تبدأ بإنجاز صغير كل يوم.')}</p>${title?`<span class="profile-title">✦ ${esc(T('cos.'+title.id))}</span><br>`:''}<span class="tag">المستوى ${levelOf(S.xp)} · ${S.xp} XP</span>${S.pets.active&&petById(S.pets.active)?`<p class="muted">🐾 الرفيق: ${petById(S.pets.active).name} · مستوى ${petLevel(S.pets.xp)}</p>`:''}</div></div></section><section class="card"><h3>تعديل الملف الشخصي</h3><form data-form="profile"><label>الصورة الشخصية<input name="photo" type="file" accept="image/*"></label><label>الأفاتار<select name="avatar">${avatarOptions}</select></label><label style="flex:1 1 180px">اسم العرض<input name="name" maxlength="40" required value="${esc(p.name)}"></label><label style="flex:1 1 100%">نبذة قصيرة<input name="bio" maxlength="180" value="${esc(p.bio)}"></label><label>الإطار المتحرك<select name="frame">${frameOptions}</select></label><button class="primary">حفظ الملف الشخصي</button></form><p class="muted">الصورة تُضغط قبل الحفظ لتقليل مساحة التخزين. الإطارات والأفاتارات المميزة تُفتح بعد شرائها من المتجر.</p></section><section class="card"><h3>📅 تقاريري الأسبوعية والشهرية</h3><div class="report-card"><b>تقرير الأسبوع الحالي</b><div class="grid">${stat('المهام',rw.tasks)}${stat('التركيز',rw.focus+' دقيقة')}${stat('العادات',rw.habits)}${stat('صافي الأرباح',fmt(rw.earned-rw.spent))}</div></div><div class="report-card"><b>تقرير الشهر الحالي</b><div class="grid">${stat('المهام',rm.tasks)}${stat('التركيز',rm.focus+' دقيقة')}${stat('العادات',rm.habits)}${stat('صافي الأرباح',fmt(rm.earned-rm.spent))}</div></div><div class="actions"><button data-act="profile-report">تصدير التقرير JSON</button><button data-act="install-pwa" id="installPwaBtn">تثبيت التطبيق</button></div></section><section class="card"><h3>${T('extra.notifications')}</h3><p class="muted">${T('extra.notifyHint')}</p><button class="primary" data-act="notifications">${T('extra.enableNotifications')}</button></section>`;}
+function socialView() { const rows=S.friends.map(f=>`<div class="row"><b>👤 ${esc(f.name)}</b><button class="danger" data-act="friend-delete" data-id="${f.id}">${T('extra.remove')}</button></div>`).join('');return `<section class="card"><h3>👥 ${T('extra.friends')}</h3><p class="muted">${T('extra.localOnly')} — الأصدقاء هنا قائمة شخصية وليست شبكة متصلة بعد.</p><form data-form="friend"><label style="flex:1 1 180px">${T('extra.friendName')}<input name="name" maxlength="40" required></label><button class="primary">${T('extra.addFriend')}</button></form>${rows||`<p class="muted">${T('extra.noFriends')}</p>`}</section>`; }
+function auctionsView() { const rows=S.auctions.map(a=>`<div class="row"><div><b>🔨 ${esc(a.name)}</b><div class="muted">${fmt(a.price)} · ${esc(a.date)} · ${T('extra.localOnly')}</div></div><button class="danger" data-act="auction-delete" data-id="${a.id}">${T('extra.remove')}</button></div>`).join('');return `<section class="card"><h3>🔨 ${T('nav.auctions')}</h3><p class="muted">${T('extra.auctionHint')}</p><form data-form="auction"><label style="flex:1 1 180px">${T('extra.auctionName')}<input name="name" maxlength="100" required></label><label>${T('extra.startBid')}<input name="price" inputmode="decimal" required></label><label>${T('extra.endDate')}<input type="date" name="date" min="${today()}" required></label><button class="primary">${T('extra.createAuction')}</button></form></section><section class="card">${rows||`<p class="muted">${T('extra.noAuctions')}</p>`}</section>`; }
+VIEWS.pets=petsView; VIEWS.missions=milestonesView; VIEWS.habits=habitsView; VIEWS.challenges=challengesView; VIEWS.calendar=calendarView; VIEWS.analytics=analyticsView; VIEWS.profile=profileView; VIEWS.assistant=assistantView; VIEWS.social=socialView; VIEWS.auctions=auctionsView;
+
+// ---------- Rendering & events ----------
+function render() {
+  if(!ui.calDate) ui.calDate=today();
+  let signedIn=false;try{signedIn=localStorage.getItem('earnit.session')==='1';}catch{}if(S?.profile?.name && signedIn){hideAuth();}else{showAuth();}
+  updateUserMini();
+  const root = document.documentElement;
+  root.lang = ui.lang; root.dir = ui.lang === 'ar' ? 'rtl' : 'ltr'; root.dataset.theme = ui.theme;
+  $('#tag').textContent = T('tagline');
+  $('#langBtn').textContent = T('lang');
+  $('#themeBtn').textContent = T(ui.theme === 'dark' ? 'toLight' : 'toDark');
+  $('#nav').innerHTML = ['dashboard', 'tasks', 'habits', 'challenges', 'missions', 'focus', 'calendar', 'shop', 'pets', 'savings', 'wallet', 'analytics', 'auctions', 'social', 'assistant', 'profile'].map(t =>
+    `<button type="button" data-act="tab" data-tab="${t}" ${ui.tab === t ? 'aria-current="page"' : ''}>${T('nav.' + t)}</button>`).join('');
+  const banner = ui.banner ? `<div class="banner" role="alert">${T(ui.banner)}</div>` : '';
+  ui.banner = '';
+  applyCos();
+  $('#app').innerHTML = banner + VIEWS[ui.tab]();
+}
+
+document.addEventListener('click', async e => {
+  const el = e.target.closest('[data-act]');
+  if (!el) return;
+  const { act, id } = el.dataset;
+  let r = true;
+  switch (act) {
+    case 'tab': ui.tab = el.dataset.tab; break;
+    case 'cal-mode': ui.calMode=el.dataset.mode; break;
+    case 'cal-today': ui.calDate=today(); break;
+    case 'cal-prev': ui.calDate=ui.calMode==='month'?monthShift(ui.calDate,-1):dateShift(ui.calDate,ui.calMode==='day'?-1:-7); break;
+    case 'cal-next': ui.calDate=ui.calMode==='month'?monthShift(ui.calDate,1):dateShift(ui.calDate,ui.calMode==='day'?1:7); break;
+    case 'logout': localStorage.removeItem('earnit.session'); showAuth(); r=false; break;
+    case 'profile-report': exportProfileReport(); r=false; break;
+    case 'install-pwa': if(window.deferredInstallPrompt){window.deferredInstallPrompt.prompt();window.deferredInstallPrompt.userChoice.finally(()=>{window.deferredInstallPrompt=null;});}else toast('لو التثبيت غير ظاهر، استخدم قائمة المتصفح ثم تثبيت التطبيق.'); r=false; break;
+    case 'filter': ui.filter = el.dataset.f; break;
+    case 'lang': ui.lang = ui.lang === 'ar' ? 'en' : 'ar'; savePrefs(); break;
+    case 'theme': ui.theme = ui.theme === 'dark' ? 'light' : 'dark'; savePrefs(); break;
+    case 'complete': r = completeTask(id); break;
+    case 'deltask': r = (await confirmBox(T('deleteConfirm'))) ? deleteTask(id) : true; break;
+    case 'edit': editTaskModal(id); r = false; break;
+    case 'postpone': r = postponeTask(id); break;
+    case 'dup': r = duplicateTask(id); break;
+    case 'buy': r = (await confirmBox(T('confirmBuy'))) ? buy(id, uid()) : true; break;
+    case 'redeem': r = redeem(id); break;
+    case 'archreward': r = archiveReward(id); break;
+    case 'cosbuy': r = (await confirmBox(T('confirmBuy'))) ? buyCosmetic(id, uid()) : true; break;
+    case 'coseq': r = equipCos(id); break;
+    case 'pet-buy': r = (await confirmBox('شراء هذا الحيوان الأليف؟')) ? buyPet(id) : true; break;
+    case 'pet-equip': r = equipPet(id); break;
+    case 'pet-feed': r = feedPet(); break;
+    case 'pet-play': r = playWithPet(); break;
+    case 'fstart': FOCUS.timer ? focusPause() : focusStart(); break;
+    case 'freset': focusReset(); break;
+    case 'dep': r = deposit(id, toP(el.closest('.goal').querySelector('input').value), uid()); break;
+    case 'wd': r = withdraw(id, toP(el.closest('.goal').querySelector('input').value), uid()); break;
+    case 'export': exportData(); break;
+    case 'import': $('#importFile')?.click(); r=false; break;
+    case 'csv': exportCsv(); break;
+    case 'reset': r = await resetAll(); break;
+    case 'habit-toggle': r = toggleHabit(id); break;
+    case 'habit-delete': r = (await confirmBox(T('deleteConfirm'))) ? deleteHabit(id) : true; break;
+    case 'challenge-claim': r = claimChallenge(id); break;
+    case 'milestone-claim': r = claimMilestone(id); break;
+    case 'daily-bonus': r = claimDailyBonus(); break;
+    case 'friend-delete': r = removeFriend(id); break;
+    case 'auction-delete': r = deleteAuction(id); break;
+    case 'notifications': if ('Notification' in window) { const p = await Notification.requestPermission(); S.notifications.permission=p; S.notifications.enabled=p==='granted'; if(!persist(S)){toast(T('err.storage'),'err');r=false;break;} if(p==='granted'){ new Notification('EARN IT',{body:'تم تفعيل الإشعارات'}); toast(T('extra.notificationOn')); } else toast(T('extra.permissionDenied'),'err'); } else toast(T('extra.permissionDenied'),'err'); r=false; break;
+    case 'modal-ok': closeModal(true); r = false; break;
+    case 'modal-no': closeModal(false); r = false; break;
+  }
+  if (r) render();
+});
+
+document.addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = Object.fromEntries(new FormData(e.target)), form = e.target.dataset.form;
+  if(form==='profile'){const file=e.target.elements.photo?.files?.[0]; if(file){try{f.photoData=await compressProfileImage(file);}catch{toast('تعذر قراءة الصورة. جرّب صورة أخرى.','err');return;}} else f.photoData=S.profile.photo||''; if(saveProfile(f)){render();toast('تم تحديث ملفك الشخصي');} return;}
+  if (form === 'edit') { if (updateTask(e.target.dataset.id, f)) { closeModal(true); render(); } return; }
+  if (form === 'assistant') { const q=(f.q||'').trim(); if(!q){toast(T('extra.askFirst'),'err');return;} const log=$('#chatlog'); log.insertAdjacentHTML('beforeend',`<div class="row"><b>أنت:</b> ${esc(q)}</div><div class="row"><b>شهد:</b> ${esc(localAssistantReply(q))}</div>`); log.scrollTop=log.scrollHeight; e.target.reset(); return; }
+  const action = { task: addTask, reward: addReward, goal: addGoal, habit:addHabit, challenge:addChallenge, friend:addFriend, auction:createAuction }[form];
+  if (action && action(f)) render();
+});
+
+document.addEventListener('change', async e => {
+  if (e.target.id === 'analyticsRange') { ui.analyticsRange=e.target.value; render(); }
+  if (e.target.id === 'importFile' && e.target.files?.[0]) { await importDataFile(e.target.files[0]); e.target.value=''; return; }
+  if (e.target.name === 'difficulty') e.target.form.elements.reward.value = mid(e.target.value);
+  if (e.target.id === 'sort') { ui.sort = e.target.value; $('#tlist').innerHTML = taskList(); }
+  if (e.target.id === 'flen') { FOCUS.len = Number(e.target.value); if (!FOCUS.timer) FOCUS.left = FOCUS.len * 60; saveFocusClock(); render(); }
+  if (e.target.id === 'ftask') { FOCUS.tid = e.target.value; saveFocusClock(); }
+});
+
+document.addEventListener('input', e => {
+  if (e.target.id === 'q') { ui.q = e.target.value; $('#tlist').innerHTML = taskList(); }
+});
+
+document.addEventListener('keydown', e => {
+  const m = modalEl();
+  if (!m.hidden) {
+    if (e.key === 'Escape') closeModal(false);
+    if (e.key === 'Tab') {
+      const f = [...m.querySelectorAll('input,select,button')], i = f.indexOf(document.activeElement);
+      e.preventDefault();
+      f[e.shiftKey ? (i <= 0 ? f.length - 1 : i - 1) : (i < 0 || i === f.length - 1 ? 0 : i + 1)]?.focus();
+    }
+    return;
+  }
+  if (e.ctrlKey || e.metaKey || e.altKey || e.target.matches('input,textarea,select')) return;
+  if (e.key === 'n' || e.key === 'N') { e.preventDefault(); ui.tab = 'tasks'; render(); $('input[name=title]')?.focus(); }
+  else if (e.key === '/') { e.preventDefault(); ui.tab = 'tasks'; render(); $('#q')?.focus(); }
+});
+
+modalEl().addEventListener('click', e => { if (e.target === modalEl()) closeModal(false); });
+
+// Local demo sign-in: profile identity is stored on this browser only (not secure authentication).
+function showAuth(){const el=$('#authScreen');if(el)el.hidden=false;}
+function hideAuth(){const el=$('#authScreen');if(el)el.hidden=true;}
+async function compressProfileImage(file){if(!file.type.startsWith('image/'))throw new Error('not image');if(file.size>8*1024*1024)throw new Error('too large');const data=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});const img=await new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=reject;i.src=data});const size=320,side=Math.min(img.width,img.height),sx=(img.width-side)/2,sy=(img.height-side)/2,canvas=document.createElement('canvas');canvas.width=canvas.height=size;canvas.getContext('2d').drawImage(img,sx,sy,side,side,0,0,size,size);return canvas.toDataURL('image/jpeg',.78);}
+function exportProfileReport(){const data={profile:S.profile,generatedAt:new Date().toISOString(),weekly:reportSummary('week'),monthly:reportSummary('month'),analytics:reportSummary('month')};const a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.href=u;a.download='earn-it-profile-report.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);}
+$('#authForm').addEventListener('submit',async e=>{e.preventDefault();const f=Object.fromEntries(new FormData(e.target));const name=(f.name||'').trim();if(!name||name.length>40){toast('اكتب اسمًا صحيحًا','err');return;}let photo='';const file=e.target.elements.photo.files?.[0];if(file){try{photo=await compressProfileImage(file)}catch{toast('الصورة غير صالحة أو حجمها كبير','err');return;}}const draft=JSON.parse(JSON.stringify(S));draft.profile={...draft.profile,name,avatar:f.avatar||'🧑‍🚀',bio:draft.profile.bio||'',photo:photo||draft.profile.photo||'',frame:draft.profile.frame||'rare'};if(!persist(draft)){toast(T('err.storage'),'err');return;}S=draft;try{localStorage.setItem('earnit.session','1');}catch{toast('تعذر حفظ جلسة الدخول في المتصفح','err');return;}hideAuth();render();toast('أهلًا بيك في EARN IT 👋');});
+function updateUserMini(){const p=S.profile||{};$('#userMini').textContent=p.name?`👤 ${p.name}`:'';}
+function registerPWA(){if(!('serviceWorker'in navigator)||!/^https?:$/.test(location.protocol))return;navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('PWA service worker:',err));}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();window.deferredInstallPrompt=e;});
+
+loadPrefs();
+S = loadState();
+const focusExpired = restoreFocusClock();
+render();
+registerPWA();
+if (focusExpired) focusFinish();
+notifyDueTasks();
+setInterval(notifyDueTasks, 15*60*1000);
+</script>
+</body>
+</html>
